@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - MedMaster</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .admin-container {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: var(--body-bg);
+            min-height: 100vh;
+            color: var(--text-color);
+        }
+        .admin-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-top: 70px;
+        }
+        .admin-header h1 {
+            font-size: 2.5rem;
+            color: var(--text-color);
+            margin-bottom: 0.5rem;
+        }
+        .admin-welcome {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+        .admin-welcome h3 {
+            color: var(--medium-green);
+            margin-bottom: 0.5rem;
+        }
+        .admin-welcome p {
+            color: var(--card-text);
+            margin-bottom: 1rem;
+        }
+        .admin-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+        .admin-btn {
+            background: var(--medium-green);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        .admin-btn:hover {
+            background: var(--light-green);
+            transform: translateY(-2px);
+        }
+        .admin-btn.danger {
+            background: #dc3545;
+        }
+        .admin-btn.secondary {
+            background: var(--gray-medium);
+            color: var(--dark-text);
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .stat-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 20px var(--card-shadow);
+        }
+        .stat-card h3 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--medium-green);
+            margin-bottom: 0.5rem;
+        }
+        .stat-card p {
+            color: var(--card-text);
+            font-size: 1.1rem;
+        }
+        .admin-highlight {
+            background: var(--accent-green);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+        .recent-activity {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 4px 20px var(--card-shadow);
+        }
+        .recent-activity h2 {
+            color: var(--card-text);
+            margin-bottom: 1rem;
+        }
+        .activity-item {
+            padding: 1rem;
+            border-bottom: 1px solid var(--gray-medium);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--medium-green);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+        .activity-content {
+            flex: 1;
+        }
+        .activity-content h4 {
+            color: var(--card-text);
+            margin-bottom: 0.25rem;
+        }
+        .activity-content p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body data-theme="dark" class="admin">
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <div class="theme-toggle" onclick="toggleThemeMenu()">
+                    <i class="fas fa-stethoscope"></i>
+                </div>
+                <span>MedMaster Admin</span>
+            </div>
+
+            <div class="theme-menu" id="themeMenu">
+                <button onclick="setTheme('light')" class="theme-btn">
+                    <i class="fas fa-sun"></i> Light Mode
+                </button>
+                <button onclick="setTheme('dark')" class="theme-btn">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+            </div>
+
+            <div class="nav-menu">
+                <a href="/" class="nav-link">Public Site</a>
+                <a href="/change-password" class="nav-link">Change Password</a>
+                <a href="/logout" class="nav-link">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="admin-container">
+        <div class="admin-header">
+            <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
+            <p>Welcome back, Administrator!</p>
+        </div>
+
+        <!-- Admin Welcome Section -->
+        <div class="admin-welcome">
+            <h3><i class="fas fa-user-shield"></i> Administrator Panel</h3>
+            <p>Logged in as: <strong>imenemazouz05@gmail.com</strong></p>
+
+            <!-- Quick Actions -->
+            <div class="admin-actions">
+                <a href="/change-password" class="admin-btn">
+                    <i class="fas fa-key"></i> Change Password
+                </a>
+                <button onclick="alert('Add new medical note functionality')" class="admin-btn">
+                    <i class="fas fa-plus"></i> Add Note
+                </button>
+                <button onclick="alert('Manage existing content')" class="admin-btn secondary">
+                    <i class="fas fa-edit"></i> Manage Content
+                </button>
+                <a href="/" class="admin-btn secondary">
+                    <i class="fas fa-eye"></i> View Public Site
+                </a>
+            </div>
+        </div>
+
+        <!-- Statistics Cards (View counts visible to admin only) -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>7</h3>
+                <p>Total Medical Notes</p>
+                <div class="admin-highlight">Admin Only</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>2.3k</h3>
+                <p>Students Registered</p>
+                <div class="admin-highlight">Admin Only</div>
+            </div>
+
+            <div class="stat-card">
+                <h3>12.4k</h3>
+                <p>Total Views</p>
+                <div class="admin-highlight">Admin Only</div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="recent-activity">
+            <h2><i class="fas fa-history"></i> Recent Activity</h2>
+
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-user-plus"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>New Student Registration</h4>
+                    <p>A new student joined the platform - 2 hours ago</p>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-eye"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>High Activity</h4>
+                    <p>Cardiac Cycle note viewed 45 times today</p>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-notes-medical"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Content Update</h4>
+                    <p>Anatomy notes were last updated 3 days ago</p>
+                </div>
+            </div>
+
+            <div class="activity-item">
+                <div class="activity-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <div class="activity-content">
+                    <h4>Security Update</h4>
+                    <p>Password change functionality added successfully</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/main.js"></script>
+    <script>
+        // Set admin status
+        sessionStorage.setItem('user_role', 'admin');
+
+        // Initialize admin features
+        document.addEventListener('DOMContentLoaded', function() {
+            document.body.classList.add('admin');
+
+            // Show admin email in welcome message
+            console.log('Admin dashboard loaded for: imenemazouz05@gmail.com');
+        });
+    </script>
+</body>
+</html>
