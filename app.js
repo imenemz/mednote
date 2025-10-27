@@ -2,384 +2,240 @@
 let currentUser = null;
 let currentTheme = 'dark';
 
-// Admin Credentials
-const ADMIN_CREDENTIALS = {
-    email: 'imenemazouz05@gmail.com',
-    password: 'Zain%2005'
-};
+// --- REMOVE: The hardcoded ADMIN_CREDENTIALS object is now gone! ---
 
-// DOM Elements
+// DOM Elements (The element object remains the same)
 const elements = {
-    // Buttons
+    // ... all your existing DOM selectors ...
     loginBtn: document.getElementById('loginBtn'),
-    registerBtn: document.getElementById('registerBtn'),
-    themeToggle: document.getElementById('themeToggle'),
-    changePasswordBtn: document.getElementById('changePasswordBtn'),
-    logoutBtn: document.getElementById('logoutBtn'),
-    
-    // Modals
-    loginModal: document.getElementById('loginModal'),
-    registerModal: document.getElementById('registerModal'),
-    adminDashboard: document.getElementById('adminDashboard'),
-    changePasswordModal: document.getElementById('changePasswordModal'),
-    themeModal: document.getElementById('themeModal'),
-    
-    // Close buttons
-    closeLoginModal: document.getElementById('closeLoginModal'),
-    closeRegisterModal: document.getElementById('closeRegisterModal'),
-    closeAdminDashboard: document.getElementById('closeAdminDashboard'),
-    closeChangePasswordModal: document.getElementById('closeChangePasswordModal'),
-    closeThemeModal: document.getElementById('closeThemeModal'),
-    
-    // Forms
+    // ...
     loginForm: document.getElementById('loginForm'),
-    registerForm: document.getElementById('registerForm'),
-    changePasswordForm: document.getElementById('changePasswordForm'),
-    
-    // Messages
-    passwordError: document.getElementById('passwordError'),
-    passwordSuccess: document.getElementById('passwordSuccess'),
-    
-    // Other elements
-    adminEmail: document.getElementById('adminEmail')
+    // ...
 };
 
-// Utility Functions
-function showModal(modal) {
-    modal.classList.remove('hidden');
-    // Focus the modal for accessibility
-    const firstInput = modal.querySelector('input, button');
-    if (firstInput) firstInput.focus();
-}
-
-function hideModal(modal) {
-    modal.classList.add('hidden');
-}
-
-function showMessage(element, message, isError = true) {
-    element.textContent = message;
-    element.classList.remove('hidden');
-    setTimeout(() => {
-        element.classList.add('hidden');
-    }, 5000);
-}
-
-function validatePassword(password) {
-    if (password.length < 6) {
-        return 'Password must be at least 6 characters long';
-    }
-    return null;
-}
+// --- CORE UTILITY FUNCTIONS ---
 
 function updateAuthButtons() {
+    // Retrieve user from session storage
+    const storedUser = sessionStorage.getItem('user');
+    currentUser = storedUser ? JSON.parse(storedUser) : null;
+
     if (currentUser) {
-        elements.loginBtn.textContent = 'Dashboard';
+        // Logged In State
+        elements.loginBtn.style.display = 'none';
         elements.registerBtn.style.display = 'none';
-    } else {
-        elements.loginBtn.textContent = 'Login';
-        elements.registerBtn.style.display = 'inline-flex';
-    }
-}
+        // Show user menu/dropdown
+        const userMenu = document.querySelector('.user-menu');
+        if (userMenu) userMenu.style.display = 'block';
+        
+        // Update user display text
+        const userEmailDisplay = document.getElementById('userEmailDisplay');
+        if (userEmailDisplay) userEmailDisplay.textContent = currentUser.email;
 
-// Event Listeners Setup
-function setupEventListeners() {
-    // Login button
-    elements.loginBtn.addEventListener('click', () => {
-        if (currentUser) {
-            showModal(elements.adminDashboard);
+        // Admin Specific UI
+        if (currentUser.role === 'admin') {
+            document.body.classList.add('admin-logged-in');
+            // Re-run the live edit setup for content cards
+            setupAdminLiveEdit(); 
         } else {
-            showModal(elements.loginModal);
+             document.body.classList.remove('admin-logged-in');
         }
-    });
-
-    // Register button
-    elements.registerBtn.addEventListener('click', () => {
-        showModal(elements.registerModal);
-    });
-
-    // Theme toggle
-    elements.themeToggle.addEventListener('click', () => {
-        showModal(elements.themeModal);
-    });
-
-    // Change password button
-    elements.changePasswordBtn.addEventListener('click', () => {
-        hideModal(elements.adminDashboard);
-        showModal(elements.changePasswordModal);
-    });
-
-    // Logout button
-    elements.logoutBtn.addEventListener('click', () => {
-        currentUser = null;
-        updateAuthButtons();
-        hideModal(elements.adminDashboard);
-        alert('Logged out successfully!');
-    });
-
-    // Close modal buttons
-    elements.closeLoginModal.addEventListener('click', () => {
-        hideModal(elements.loginModal);
-    });
-
-    elements.closeRegisterModal.addEventListener('click', () => {
-        hideModal(elements.registerModal);
-    });
-
-    elements.closeAdminDashboard.addEventListener('click', () => {
-        hideModal(elements.adminDashboard);
-    });
-
-    elements.closeChangePasswordModal.addEventListener('click', () => {
-        hideModal(elements.changePasswordModal);
-    });
-
-    elements.closeThemeModal.addEventListener('click', () => {
-        hideModal(elements.themeModal);
-    });
-
-    // Click outside modal to close
-    [elements.loginModal, elements.registerModal, elements.adminDashboard, 
-     elements.changePasswordModal, elements.themeModal].forEach(modal => {
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                hideModal(modal);
-            }
-        });
-    });
-
-    // Form submissions
-    elements.loginForm.addEventListener('submit', handleLogin);
-    elements.registerForm.addEventListener('submit', handleRegister);
-    elements.changePasswordForm.addEventListener('submit', handlePasswordChange);
-
-    // Theme options
-    document.querySelectorAll('.theme-option').forEach(option => {
-        option.addEventListener('click', (e) => {
-            const theme = e.target.getAttribute('data-theme');
-            setTheme(theme);
-            hideModal(elements.themeModal);
-        });
-    });
-
-    // Escape key to close modals
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            [elements.loginModal, elements.registerModal, elements.adminDashboard, 
-             elements.changePasswordModal, elements.themeModal].forEach(modal => {
-                if (!modal.classList.contains('hidden')) {
-                    hideModal(modal);
-                }
-            });
-        }
-    });
-}
-
-// Authentication Functions
-function handleLogin(e) {
-    e.preventDefault();
-    
-    const email = document.getElementById('email').value.trim();
-    const password = document.getElementById('password').value;
-    
-    // Check admin credentials
-    if (email === ADMIN_CREDENTIALS.email && password === ADMIN_CREDENTIALS.password) {
-        currentUser = {
-            email: email,
-            type: 'admin'
-        };
-        
-        updateAuthButtons();
-        hideModal(elements.loginModal);
-        alert('Login successful! Welcome, Admin.');
-        
-        // Clear form
-        elements.loginForm.reset();
     } else {
-        alert('Invalid credentials. Please try again.');
+        // Logged Out State
+        elements.loginBtn.style.display = 'inline-block';
+        elements.registerBtn.style.display = 'inline-block';
+        const userMenu = document.querySelector('.user-menu');
+        if (userMenu) userMenu.style.display = 'none';
+        document.body.classList.remove('admin-logged-in');
+        
+        // Remove contentEditable attributes
+        document.querySelectorAll('[data-editable]').forEach(el => {
+            el.removeAttribute('contenteditable');
+            el.classList.remove('admin-editable-active');
+        });
     }
 }
 
-function handleRegister(e) {
+// --- NEW API LOGIN FUNCTION ---
+async function handleLogin(e) {
     e.preventDefault();
+    const email = elements.loginForm.email.value;
+    const password = elements.loginForm.password.value;
     
-    const name = document.getElementById('regName').value.trim();
-    const email = document.getElementById('regEmail').value.trim();
-    const password = document.getElementById('regPassword').value;
-    
-    // Basic validation
-    if (!name || !email || !password) {
-        alert('Please fill in all fields.');
-        return;
-    }
-    
-    const passwordError = validatePassword(password);
-    if (passwordError) {
-        alert(passwordError);
-        return;
-    }
-    
-    // Simulate registration
-    alert('Registration successful! You can now login.');
-    hideModal(elements.registerModal);
-    
-    // Clear form
-    elements.registerForm.reset();
-}
+    try {
+        const response = await fetch('/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ email, password })
+        });
 
-function handlePasswordChange(e) {
-    e.preventDefault();
-    
-    const currentPassword = document.getElementById('currentPassword').value;
-    const newPassword = document.getElementById('newPassword').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    
-    // Clear previous messages
-    elements.passwordError.classList.add('hidden');
-    elements.passwordSuccess.classList.add('hidden');
-    
-    // Validate current password
-    if (currentPassword !== ADMIN_CREDENTIALS.password) {
-        showMessage(elements.passwordError, 'Current password is incorrect.');
-        return;
-    }
-    
-    // Validate new password
-    const passwordError = validatePassword(newPassword);
-    if (passwordError) {
-        showMessage(elements.passwordError, passwordError);
-        return;
-    }
-    
-    // Check if passwords match
-    if (newPassword !== confirmPassword) {
-        showMessage(elements.passwordError, 'New passwords do not match.');
-        return;
-    }
-    
-    // Check if new password is different from current
-    if (newPassword === currentPassword) {
-        showMessage(elements.passwordError, 'New password must be different from current password.');
-        return;
-    }
-    
-    // Update password (in real app, this would be sent to server)
-    ADMIN_CREDENTIALS.password = newPassword;
-    
-    showMessage(elements.passwordSuccess, 'Password updated successfully!', false);
-    
-    // Clear form after delay
-    setTimeout(() => {
-        elements.changePasswordForm.reset();
-        hideModal(elements.changePasswordModal);
-    }, 2000);
-}
+        const data = await response.json();
 
-// Theme Functions
-function setTheme(theme) {
-    currentTheme = theme;
-    document.documentElement.setAttribute('data-color-scheme', theme);
-    
-    // Update theme toggle icon
-    elements.themeToggle.textContent = theme === 'dark' ? '🩺' : '🩺';
-    elements.themeToggle.title = `Current theme: ${theme}. Click to change.`;
-}
-
-function initializeTheme() {
-    // Start with dark theme as requested
-    setTheme('dark');
-}
-
-// Smooth scrolling for navigation links
-function setupSmoothScrolling() {
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href').substring(1);
-            const targetElement = document.getElementById(targetId);
+        if (data.success) {
+            // CRUCIAL: Save user info to sessionStorage
+            sessionStorage.setItem('user', JSON.stringify({ email: data.email, role: data.role }));
+            currentUser = { email: data.email, role: data.role };
             
-            if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
+            updateAuthButtons();
+            closeLoginModal();
+            
+            if (currentUser.role === 'admin') {
+                window.location.href = '/admin'; // Redirect admin to dashboard
+            } else {
+                alert('Login successful! Welcome.');
             }
+        } else {
+            alert(data.message || 'Login failed.');
+        }
+    } catch (error) {
+        console.error('Login error:', error);
+        alert('An error occurred during login. Please try again.');
+    }
+}
+// Assign this new function to the form submit event listener in setupEventListeners()
+
+// --- NEW/UPDATED FETCH NOTES FUNCTION ---
+async function fetchAndRenderNotes(category) {
+    // The endpoint now returns category along with the note, which is useful for PUT requests.
+    const noteContainer = document.getElementById('noteContainer');
+    noteContainer.innerHTML = '<div class="loading-message">Loading notes...</div>';
+
+    try {
+        const response = await fetch(`/api/notes/${category}`);
+        const notes = await response.json();
+
+        noteContainer.innerHTML = '';
+        if (notes.length === 0) {
+            noteContainer.innerHTML = '<div class="empty-message">No notes found for this category.</div>';
+            return;
+        }
+
+        notes.forEach(note => {
+            const card = document.createElement('div');
+            // CRUCIAL: Add data-note-id and data-category for admin editing
+            card.className = 'concept-card';
+            card.setAttribute('data-note-id', note.id);
+            card.setAttribute('data-category', note.category); 
+            
+            card.innerHTML = `
+                <h3 class="concept-title" data-editable>${note.title}</h3>
+                <div class="concept-content" data-editable>${note.content}</div>
+                <div class="card-footer">
+                    <span>Views: ${note.views}</span>
+                    <span>Created: ${new Date(note.created_at).toLocaleDateString()}</span>
+                </div>
+            `;
+            noteContainer.appendChild(card);
+        });
+
+        // Re-run setupAdminLiveEdit after new cards are rendered
+        if (currentUser && currentUser.role === 'admin') {
+            setupAdminLiveEdit();
+        }
+
+    } catch (error) {
+        console.error('Error fetching notes:', error);
+        noteContainer.innerHTML = '<div class="error-message">Failed to load content.</div>';
+    }
+}
+
+// --- NEW ADMIN LIVE EDIT LOGIC ---
+
+// Function to handle saving the note via API
+function saveNoteUpdate(noteId, payload, element) {
+    fetch(`/api/notes/${noteId}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to save update.');
+        }
+        // Visual feedback (Success)
+        element.style.transition = 'background-color 0.5s';
+        element.style.backgroundColor = 'rgba(25, 62, 55, 0.2)'; 
+        setTimeout(() => { element.style.backgroundColor = ''; }, 800);
+        return response.json();
+    })
+    .catch(error => {
+        console.error('Save failed:', error);
+        alert('Failed to save changes: ' + error.message);
+        // Visual feedback (Error)
+        element.style.backgroundColor = 'rgba(239, 68, 68, 0.2)';
+    });
+}
+
+// Function to enable in-place editing for the admin
+function setupAdminLiveEdit() {
+    const user = currentUser; // Use the global currentUser state
+    
+    // Only run if the user is an admin
+    if (!user || user.role !== 'admin') {
+        return; 
+    }
+    
+    document.querySelectorAll('[data-editable]').forEach(element => {
+        // 1. Enable editing
+        element.setAttribute('contenteditable', 'true');
+        element.classList.add('admin-editable-active'); 
+        
+        // 2. Add listener to SAVE when the element loses focus
+        element.addEventListener('blur', function() {
+            const card = this.closest('.concept-card');
+            const noteId = card?.dataset.noteId;
+            const category = card?.dataset.category;
+
+            if (!noteId || !category) return;
+            
+            // Collect the edited data from the card elements
+            const newTitle = card.querySelector('.concept-title')?.textContent.trim() || '';
+            const newContent = card.querySelector('.concept-content')?.innerHTML.trim() || ''; // Use innerHTML for rich text
+            
+            const payload = {
+                title: newTitle,
+                content: newContent,
+                category: category,
+                is_published: 1 
+            };
+            
+            saveNoteUpdate(noteId, payload, this);
         });
     });
 }
 
-// Course and tool card interactions
-function setupCardInteractions() {
-    document.querySelectorAll('.course-card, .tool-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const title = card.querySelector('h3').textContent;
-            alert(`${title} - Coming soon! Full content will be available in the complete version.`);
-        });
-        
-        // Add keyboard navigation
-        card.setAttribute('tabindex', '0');
-        card.setAttribute('role', 'button');
-        
-        card.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter' || e.key === ' ') {
-                e.preventDefault();
-                card.click();
-            }
-        });
-    });
+// --- INITIALIZATION ---
+
+function setupEventListeners() {
+    // ... existing event listeners ...
+    
+    // CRUCIAL: Replace old login listener with new API handler
+    if (elements.loginForm) {
+        elements.loginForm.removeEventListener('submit', handleDummyLogin); // Remove old/dummy listener
+        elements.loginForm.addEventListener('submit', handleLogin); // Add new API listener
+    }
+    
+    // ... existing event listeners ...
 }
 
-// Form validation enhancements
-function setupFormValidation() {
-    // Real-time password strength indicator for change password form
-    const newPasswordInput = document.getElementById('newPassword');
-    const confirmPasswordInput = document.getElementById('confirmPassword');
-    
-    if (newPasswordInput) {
-        newPasswordInput.addEventListener('input', (e) => {
-            const password = e.target.value;
-            const helpText = newPasswordInput.parentNode.querySelector('.form-help');
-            
-            if (password.length === 0) {
-                helpText.textContent = 'Password must be at least 6 characters long';
-                helpText.style.color = 'var(--color-text-secondary)';
-            } else if (password.length < 6) {
-                helpText.textContent = `${6 - password.length} more characters needed`;
-                helpText.style.color = 'var(--color-warning)';
-            } else {
-                helpText.textContent = 'Password strength: Good';
-                helpText.style.color = 'var(--color-success)';
-            }
-        });
-    }
-    
-    if (confirmPasswordInput) {
-        confirmPasswordInput.addEventListener('input', (e) => {
-            const newPassword = newPasswordInput.value;
-            const confirmPassword = e.target.value;
-            
-            if (confirmPassword.length > 0) {
-                if (newPassword === confirmPassword) {
-                    confirmPasswordInput.style.borderColor = 'var(--color-success)';
-                } else {
-                    confirmPasswordInput.style.borderColor = 'var(--color-error)';
-                }
-            } else {
-                confirmPasswordInput.style.borderColor = 'var(--color-border)';
-            }
-        });
-    }
-}
 
 // Initialize Application
 function init() {
+    // This order is important
+    updateAuthButtons(); // Sets currentUser and checks for admin status
     setupEventListeners();
     initializeTheme();
     setupSmoothScrolling();
     setupCardInteractions();
-    setupFormValidation();
-    updateAuthButtons();
+    setupFormValidation(); 
+    setupAdminLiveEdit(); // Runs only if updateAuthButtons sets role as admin
     
+    // Ensure the default category is fetched on load
+    fetchAndRenderNotes('anatomy');
+
     console.log('MedMaster application initialized');
-    console.log('Admin credentials: imenemazouz05@gmail.com / Zain%2005');
 }
 
 // Initialize when DOM is loaded
