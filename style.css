@@ -25,8 +25,8 @@
     --text-color: #F5F5F5;
     --nav-text-color: #ffffff;
     --footer-text-color: #ffffff;
-    --card-bg: #ffffff;
-    --card-text: #1a1a1a;
+    --card-bg: #222;
+    --card-text: #fff;
 }
 
 /* Light Mode Theme */
