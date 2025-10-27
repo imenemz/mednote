@@ -69,7 +69,7 @@ def init_db():
     # 3. Check for and Create Default Admin User
     c.execute("SELECT * FROM users WHERE email = 'imenemazouz05@gmail.com'")
     if c.fetchone() is None:
-        admin_password_hash = generate_password_hash('Zain%2005')
+        admin_password_hash = generate_password_hash('zainhanouni2005')
         c.execute("INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)",
                   ('admin_user', 'imenemazouz05@gmail.com', admin_password_hash, 'admin'))
         
