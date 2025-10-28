@@ -209,15 +209,42 @@ function setupAdminLiveEdit() {
 // --- INITIALIZATION ---
 
 function setupEventListeners() {
-    // ... existing event listeners ...
-    
-    // CRUCIAL: Replace old login listener with new API handler
-    if (elements.loginForm) {
-        elements.loginForm.removeEventListener('submit', handleDummyLogin); // Remove old/dummy listener
-        elements.loginForm.addEventListener('submit', handleLogin); // Add new API listener
+    // ... (existing event listeners) ...
+
+    // NEW: Register button opens the modal
+    if (elements.registerBtn) {
+        elements.registerBtn.addEventListener('click', showSignup);
     }
-    
-    // ... existing event listeners ...
+
+    // NEW: Close register modal button
+    if (elements.closeRegisterModal) {
+        elements.closeRegisterModal.addEventListener('click', closeSignup);
+    }
+
+    // NEW: Register form submission
+    if (elements.registerForm) {
+        elements.registerForm.addEventListener('submit', handleRegister);
+    }
+
+    // NEW: Live password match check for visual feedback
+    const registerPasswordInput = document.getElementById('registerPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+
+    if (registerPasswordInput && confirmPasswordInput) {
+        const checkPasswordMatch = () => {
+            if (registerPasswordInput.value === confirmPasswordInput.value) {
+                elements.passwordMatchError.style.display = 'none';
+                confirmPasswordInput.style.borderColor = ''; // Reset border
+            } else {
+                elements.passwordMatchError.style.display = 'block';
+                // You can add a red border here using CSS variables if you want more visual feedback
+            }
+        };
+        registerPasswordInput.addEventListener('input', checkPasswordMatch);
+        confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+    }
+
+    // ... (rest of setupEventListeners) ...
 }
 
 
