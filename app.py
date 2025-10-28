@@ -28,7 +28,7 @@ os.makedirs(app.config['UPLOAD_FOLDER'], exist_ok=True)
 
 def get_db_connection():
     # Use the absolute path for persistent connection
-    conn = sqlite3.connect(DB_PATH) 
+    conn = sqlite3.connect(DB_PATH)
     conn.row_factory = sqlite3.Row # Allows accessing columns by name
     return conn
 
@@ -72,7 +72,7 @@ def init_db():
         admin_password_hash = generate_password_hash('zainhanouni2005')
         c.execute("INSERT INTO users (username, email, password_hash, role) VALUES (?, ?, ?, ?)",
                   ('admin_user', 'imenemazouz05@gmail.com', admin_password_hash, 'admin'))
-        
+
         # Insert sample data (Admin ID is 1 if it's the first user)
         sample_notes = [
             ('Human Heart Structure', 'anatomy', '<h3>Overview</h3><p>The human heart is a muscular organ with four chambers.</p>'),
@@ -87,7 +87,7 @@ def init_db():
         # Note: We assume the admin_user is id=1, which is safe on first run
         for note in sample_notes:
             c.execute('INSERT INTO medical_notes (title, category, content, author_id) VALUES (?, ?, ?, 1)', note)
-        
+
         print("Default admin user and sample data created.")
 
     conn.commit()
@@ -105,7 +105,7 @@ def index():
 @app.route('/api/login', methods=['POST'])
 def api_login():
     # Expects JSON data from the frontend
-    data = request.get_json() 
+    data = request.get_json()
     email = data.get('email')
     password = data.get('password')
 
@@ -121,7 +121,7 @@ def api_login():
         session['user_id'] = user['id']
         session['role'] = user['role']
         session['email'] = user['email']
-        
+
         # Return necessary user info to the frontend for sessionStorage
         return jsonify({'success': True, 'role': user['role'], 'email': user['email']})
     else:
@@ -143,17 +143,17 @@ def admin_dashboard():
         return redirect(url_for('index'))
 
     conn = get_db_connection()
-    
+
     total_notes = conn.execute("SELECT COUNT(*) FROM medical_notes").fetchone()['COUNT(*)']
     total_students = conn.execute("SELECT COUNT(*) FROM users WHERE role = 'user'").fetchone()['COUNT(*)']
     total_views = conn.execute("SELECT SUM(views) FROM medical_notes").fetchone()[0] or 0
     recent_notes = conn.execute("SELECT * FROM medical_notes ORDER BY created_at DESC LIMIT 10").fetchall()
-    
+
     conn.close()
 
     # Pass the variables to the template (admin_dashboard.html)
-    return render_template('admin_dashboard.html', 
-                         total_notes=total_notes, 
+    return render_template('admin_dashboard.html',
+                         total_notes=total_notes,
                          total_students=total_students,
                          total_views=total_views,
                          recent_notes=recent_notes)
@@ -162,16 +162,16 @@ def admin_dashboard():
 @app.route('/api/notes/<category>')
 def get_notes_by_category(category):
     conn = get_db_connection()
-    
+
     # Check if admin is logged in. Admins can see unpublished notes.
     is_admin = session.get('role') == 'admin'
 
     query = 'SELECT id, title, content, views, created_at FROM medical_notes WHERE category = ?'
     params = [category]
-    
+
     if not is_admin:
         query += ' AND is_published = 1' # Only published notes for public/user
-    
+
     query += ' ORDER BY created_at DESC'
 
     notes = []
@@ -179,13 +179,13 @@ def get_notes_by_category(category):
     for row in conn.execute(query, params).fetchall():
         notes.append({
             # Access columns by name thanks to conn.row_factory = sqlite3.Row
-            'id': row['id'], 
-            'title': row['title'], 
+            'id': row['id'],
+            'title': row['title'],
             'content': row['content'],
             'views': row['views'],
             'created_at': row['created_at']
         })
-        
+
     conn.close()
     return jsonify(notes)
 
@@ -200,21 +200,21 @@ def update_note(note_id):
     data = request.get_json()
     title = data.get('title')
     content = data.get('content')
-    
+
     conn = get_db_connection()
     existing_note = conn.execute('SELECT * FROM medical_notes WHERE id = ?', (note_id,)).fetchone()
-    
+
     if not existing_note:
         conn.close()
         return jsonify({'success': False, 'message': 'Note not found.'}), 404
 
     # Use existing category and publication status, unless explicitly provided
     category = data.get('category', existing_note['category'])
-    is_published = data.get('is_published', existing_note['is_published']) 
+    is_published = data.get('is_published', existing_note['is_published'])
 
     try:
         conn.execute("""
-            UPDATE medical_notes 
+            UPDATE medical_notes
             SET title = ?, content = ?, category = ?, is_published = ?, updated_at = CURRENT_TIMESTAMP
             WHERE id = ?
         """, (title, content, category, is_published, note_id))
@@ -242,7 +242,7 @@ def add_new_note():
 
     if not all([title, category, content]):
         return jsonify({'success': False, 'message': 'Missing required fields.'}), 400
-    
+
     conn = get_db_connection()
     try:
         conn.execute("""
@@ -271,7 +271,7 @@ def api_change_password():
 
     if new_password != confirm_password:
         return jsonify({'success': False, 'message': 'New passwords do not match'}), 400
-        
+
     if len(new_password) < 6:
         return jsonify({'success': False, 'message': 'Password must be at least 6 characters long'}), 400
 
@@ -294,9 +294,15 @@ def api_change_password():
     finally:
         conn.close()
 
-
 # --- Run App ---
 if __name__ == '__main__':
-    # Initialize the database and create tables/admin user on the first run
-    init_db() 
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    # The database has already been initialized on the server via a manual python run.
+    # We leave this line only to allow local testing if needed, but the line below MUST be commented out for deployment.
+    # init_db()
+
+    # ------------------------------------------------------------------------------------------------
+    # CRITICAL: Comment out or remove the app.run() line for production deployment with Gunicorn/WSGI
+    # app.run(debug=True, host='0.0.0.0', port=5000)
+    # ------------------------------------------------------------------------------------------------
+
+    pass # Ensures the file ends cleanly
