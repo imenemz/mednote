@@ -899,6 +899,7 @@
     </style>
 </head>
 <body>
+    <!-- Navigation -->
     <nav class="navbar">
         <div class="navbar-container">
             <div style="display: flex; align-items: center; gap: 1rem;">
@@ -936,7 +937,9 @@
         </div>
     </nav>
 
+    <!-- Main Content -->
     <main class="main-content">
+        <!-- Home Page -->
         <div id="homePage" class="page">
             <div class="hero">
                 <h1>Master Medicine, One Concept at a Time</h1>
@@ -997,6 +1000,7 @@
             </div>
         </div>
 
+        <!-- Library Page -->
         <div id="libraryPage" class="page hidden">
             <div class="hero">
                 <button class="back-btn" onclick="showHome()">← Back to Home</button>
@@ -1053,6 +1057,7 @@
             </div>
         </div>
 
+        <!-- Category Page -->
         <div id="categoryPage" class="page hidden">
             <div class="hero">
                 <button class="back-btn" onclick="showLibrary()">← Back to Library</button>
@@ -1062,17 +1067,7 @@
             <div class="subcategories" id="subcategoriesContainer"></div>
         </div>
 
-        <div id="noteListPage" class="page hidden">
-            <div class="hero">
-                <button class="back-btn" onclick="showCategory(currentCategory)">← Back to Subcategories</button>
-                <h1 id="noteListTitle"></h1>
-                <p id="noteListDescription"></p>
-            </div>
-            
-            <section id="noteContainer" class="notes-list">
-                <div class="loading-message">Select a category to view medical notes.</div>
-            </section>
-        </div>
+        <!-- Subcategory Page -->
         <div id="subcategoryPage" class="page hidden">
             <div class="hero">
                 <button class="back-btn" id="subcategoryBackBtn">← Back</button>
@@ -1082,6 +1077,7 @@
             <div class="notes-list" id="notesContainer"></div>
         </div>
 
+        <!-- Note View Page -->
         <div id="notePage" class="page hidden">
             <div class="note-content">
                 <button class="back-btn" id="noteBackBtn">← Back to Notes</button>
@@ -1097,6 +1093,7 @@
             </div>
         </div>
 
+        <!-- Admin Dashboard -->
         <div id="adminDashboard" class="page hidden">
             <div class="admin-dashboard">
                 <div class="hero">
@@ -1104,6 +1101,7 @@
                     <h1>Admin Dashboard</h1>
                     <p>Manage your medical notes and content</p>
                 </div>
+
                 <div class="stats-grid">
                     <div class="stat-card">
                         <span class="stat-number" id="publishedCount">0</span>
@@ -1122,6 +1120,7 @@
                         <span class="stat-label">Total Views</span>
                     </div>
                 </div>
+
                 <div class="categories">
                     <div class="category-card" onclick="showAdminNotes('published')">
                         <div class="category-icon" style="color: var(--primary);">
@@ -1162,6 +1161,7 @@
             </div>
         </div>
 
+        <!-- Admin Notes Management -->
         <div id="adminNotesPage" class="page hidden">
             <div class="hero">
                 <button class="back-btn" onclick="showAdminDashboard()">← Back to Dashboard</button>
@@ -1171,17 +1171,20 @@
             <div class="notes-list" id="adminNotesContainer"></div>
         </div>
 
+        <!-- Add/Edit Note Page -->
         <div id="addNotePage" class="page hidden">
             <div class="note-content">
                 <button class="back-btn" onclick="showAdminDashboard()">← Back to Dashboard</button>
                 <div class="note-header">
                     <h1 id="addNoteTitle">Add New Note</h1>
                 </div>
+                
                 <form id="noteForm">
                     <div class="form-group">
                         <label class="form-label" for="noteFormTitle">Title</label>
                         <input type="text" class="form-input" id="noteFormTitle" required>
                     </div>
+                    
                     <div class="form-group">
                         <label class="form-label" for="noteFormCategory">Category</label>
                         <select class="form-select" id="noteFormCategory" required>
@@ -1191,12 +1194,14 @@
                             <option value="Specialty">Specialty</option>
                         </select>
                     </div>
+                    
                     <div class="form-group">
                         <label class="form-label" for="noteFormSubcategory">Subcategory</label>
                         <select class="form-select" id="noteFormSubcategory" required>
                             <option value="">Select Subcategory</option>
                         </select>
                     </div>
+                    
                     <div class="note-editor">
                         <label class="form-label">Content Editor</label>
                         <div class="editor-toolbar">
@@ -1224,14 +1229,17 @@
                         </div>
                         <div class="rich-editor" id="noteFormContent" contenteditable="true" data-placeholder="Enter the medical note content..."></div>
                     </div>
+                    
                     <div class="form-group">
                         <label class="form-label" for="noteFormSources">Sources &amp; References</label>
                         <textarea class="form-input" id="noteFormSources" placeholder="Add sources, references, and external links..."></textarea>
                     </div>
+                    
                     <div class="form-group">
                         <label class="form-label" for="noteFormTags">Tags</label>
                         <input type="text" class="form-input" id="noteFormTags" placeholder="Add tags separated by commas...">
                     </div>
+                    
                     <div class="form-group">
                         <button type="button" class="btn btn-primary" onclick="saveNote(false)">Publish Note</button>
                         <button type="button" class="btn btn-secondary" onclick="saveNote(true)" style="margin-left: 1rem;">Save as Draft</button>
@@ -1241,120 +1249,130 @@
             </div>
         </div>
 
-        <div id="manageCategoriesPage" class="page hidden">
-            <div class="hero">
-                <button class="back-btn" onclick="showAdminDashboard()">← Back to Dashboard</button>
-                <h1>Manage Categories & Subcategories</h1>
-                <p>Add, edit, or delete the organizational structure of your content.</p>
-                <button class="btn btn-success" onclick="openAddCategoryModal()">
-                    <i class="fas fa-plus"></i> Add New Category
-                </button>
-            </div>
-
-            <div class="categories" id="manageCategoriesGrid">
-                </div>
-        </div>
-
+        <!-- Tools Page -->
         <div id="toolsPage" class="page hidden">
             <div class="hero">
                 <button class="back-btn" onclick="showHome()">← Back to Home</button>
-                <h1>Medical Tools & Calculators</h1>
-                <p>Essential tools to assist with clinical decision-making and learning.</p>
+                <div class="admin-controls" id="toolsAdminControls" style="position: absolute; top: 1rem; right: 2rem;">
+                    <button class="admin-btn edit" onclick="editToolsContent()" title="Edit Tools Page">
+                        <i class="fas fa-edit"></i>
+                    </button>
+                </div>
+                <h1>Study Tools</h1>
+                <p>Interactive tools to enhance your medical learning experience</p>
             </div>
-
             <div class="categories">
-                <div class="category-card" onclick="showTool('BMI')">
-                    <div class="category-icon" style="color: #4CAF50;">
-                        <i class="fas fa-weight-scale"></i>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-book" style="color: #0d9488;"></i>
                     </div>
-                    <h3>BMI Calculator</h3>
-                    <p>Calculate Body Mass Index.</p>
+                    <h3>Study Guide Generator</h3>
+                    <p>Coming Soon - Generate personalized study guides from your notes</p>
                 </div>
-                <div class="category-card" onclick="showTool('GFR')">
-                    <div class="category-icon" style="color: #2196F3;">
-                        <i class="fas fa-stethoscope"></i>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-brain" style="color: #7c3aed;"></i>
                     </div>
-                    <h3>GFR Calculator</h3>
-                    <p>Estimate Glomerular Filtration Rate.</p>
+                    <h3>Quiz Builder</h3>
+                    <p>Coming Soon - Create custom quizzes to test your knowledge</p>
                 </div>
-                <div class="category-card" onclick="showTool('APGAR')">
-                    <div class="category-icon" style="color: #FFC107;">
-                        <i class="fas fa-child"></i>
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-chart-line" style="color: #059669;"></i>
                     </div>
-                    <h3>APGAR Score</h3>
-                    <p>Newborn assessment tool.</p>
+                    <h3>Progress Tracker</h3>
+                    <p>Coming Soon - Track your learning progress across specialties</p>
                 </div>
             </div>
         </div>
 
-        <div id="iapage" class="page hidden">
+        <!-- IA Page -->
+        <div id="iaPage" class="page hidden">
             <div class="hero">
                 <button class="back-btn" onclick="showHome()">← Back to Home</button>
-                <h1>Intelligent Assistant (IA)</h1>
-                <p>Ask our AI a complex medical question for a synthesis of information.</p>
+                <h1>AI Assistant</h1>
+                <p>Coming Soon - AI-powered medical knowledge assistant</p>
             </div>
-            <div style="max-width: 800px; margin: 0 auto; padding: 2rem;">
-                <div class="form-group">
-                    <label class="form-label" for="iaInput">Your Medical Query</label>
-                    <textarea class="form-textarea" id="iaInput" rows="5" placeholder="e.g., Explain the mechanism of action of SGLT2 inhibitors in heart failure."></textarea>
-                </div>
-                <button class="btn btn-primary" onclick="generateIASynthesis()">Get AI Synthesis</button>
-                <div id="iaOutput" class="note-editor" style="margin-top: 2rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">AI Response</h4>
-                    <p id="iaResponseText">The AI response will appear here...</p>
+            <div class="note-content">
+                <div class="note-header text-center">
+                    <div style="font-size: 4rem; margin-bottom: 1rem; color: var(--primary);">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <h2>AI Medical Assistant</h2>
+                    <p>Get instant answers to medical questions, drug interactions, differential diagnoses, and more.</p>
+                    <p style="color: var(--text-light); margin-top: 2rem;">This feature will be available in the next update.</p>
                 </div>
             </div>
         </div>
 
+        <!-- About Page -->
         <div id="aboutPage" class="page hidden">
             <div class="hero">
                 <button class="back-btn" onclick="showHome()">← Back to Home</button>
-                <h1>About MedMaster</h1>
-                <p>Our mission is to simplify and consolidate medical knowledge for students and practitioners.</p>
-            </div>
-            <div class="note-content" id="aboutContent">
-                <div class="admin-controls" style="position: static; margin-bottom: 1rem;">
-                    <button class="admin-btn edit" onclick="openAboutEditor()" title="Edit About Content">
-                        <i class="fas fa-pen"></i>
+                <div class="admin-controls" id="aboutAdminControls" style="position: absolute; top: 1rem; right: 2rem;">
+                    <button class="admin-btn edit" onclick="editAboutContent()" title="Edit About Page">
+                        <i class="fas fa-edit"></i>
                     </button>
                 </div>
-                <p>MedMaster was founded on the principle that essential medical knowledge should be accessible, concise, and easy to review. We curate high-yield notes covering a vast range of medical, surgical, and specialty topics to help you master complex concepts.</p>
-                <h2 style="color: var(--primary); margin-top: 2rem;">Our Team</h2>
-                <p>We are a dedicated group of physicians and medical students committed to creating the best educational resources available.</p>
+                <h1>About MedMaster</h1>
+                <p>Empowering medical professionals with comprehensive study resources</p>
+            </div>
+            <div class="note-content">
+                <div class="note-header" id="aboutContent">
+                    <h2>Our Mission</h2>
+                    <p>MedMaster is your comprehensive medical education platform designed to help students master complex medical concepts through interactive learning tools and evidence-based content. Our platform covers essential topics across all major medical specialties.</p>
+                    
+                    <h3 style="margin-top: 2rem;">Features</h3>
+                    <ul style="margin-left: 1.5rem; margin-top: 1rem;">
+                        <li>Comprehensive medical notes across specialties</li>
+                        <li>Organized by Medical, Surgical, and Specialty categories</li>
+                        <li>Progress tracking for continuous learning</li>
+                        <li>Admin panel for content management</li>
+                        <li>Search functionality across all content</li>
+                    </ul>
+                    
+                    <h3 style="margin-top: 2rem;">Contact Information</h3>
+                    <p>For questions, feedback, or collaboration opportunities, please contact us at: <strong>imenemazouz05@gmail.com</strong></p>
+                </div>
             </div>
         </div>
-
     </main>
 
+    <!-- Footer -->
     <footer class="footer">
         <div class="footer-content">
             <div class="footer-section">
-                <h4>MedMaster</h4>
-                <p>Master Medicine, One Concept at a Time.</p>
-            </div>
-            <div class="footer-section">
-                <h4>Quick Links</h4>
-                <a href="#" onclick="showHome()">Home</a>
-                <a href="#" onclick="showLibrary()">Library</a>
+                <h4>Platform</h4>
+                <a href="#" onclick="showHome()">Features</a>
                 <a href="#" onclick="showTools()">Tools</a>
-                <a href="#" onclick="showAbout()">About</a>
+                <a href="#">Quizzes</a>
             </div>
             <div class="footer-section">
-                <h4>Contact</h4>
-                <a href="mailto:support@medmaster.com">support@medmaster.com</a>
-                <a href="#">Privacy Policy</a>
-                <a href="#">Terms of Service</a>
+                <h4>Resources</h4>
+                <a href="#">Documentation</a>
+                <a href="#">Help Center</a>
+                <a href="#">Community</a>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <a href="#" onclick="showAbout()">About Us</a>
+                <a href="#" onclick="showAbout()">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>Development</h4>
+                <a href="https://github.com" target="_blank">GitHub</a>
             </div>
         </div>
         <div class="footer-bottom">
-            &copy; 2024 MedMaster. All rights reserved.
+            <p>&copy; 2025 MedMaster. All rights reserved. Built for medical education excellence.</p>
         </div>
     </footer>
 
+    <!-- Login Modal -->
     <div id="loginModal" class="modal">
         <div class="modal-content">
             <div class="modal-header">
-                <h2>Login</h2>
+                <h2>Admin Login</h2>
                 <button class="close-btn" onclick="closeLogin()">&times;</button>
             </div>
             <form id="loginForm">
@@ -1366,293 +1384,1552 @@
                     <label class="form-label" for="loginPassword">Password</label>
                     <input type="password" class="form-input" id="loginPassword" required>
                 </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Log In</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="signupModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>Sign Up</h2>
-                <button class="close-btn" onclick="closeSignup()">&times;</button>
-            </div>
-            <form id="signupForm">
                 <div class="form-group">
-                    <label class="form-label" for="signupUsername">Username</label>
-                    <input type="text" class="form-input" id="signupUsername" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="signupEmail">Email</label>
-                    <input type="email" class="form-input" id="signupEmail" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="signupPassword">Password</label>
-                    <input type="password" class="form-input" id="signupPassword" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="signupConfirmPassword">Confirm Password</label>
-                    <input type="password" class="form-input" id="signupConfirmPassword" required>
-                </div>
-                <button type="submit" class="btn btn-primary" style="width: 100%;">Create Account</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="bmiModal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2>BMI Calculator</h2>
-                <button class="close-btn" onclick="closeTool()">&times;</button>
-            </div>
-            <form id="bmiForm">
-                <div class="form-group">
-                    <label class="form-label" for="weight">Weight (kg)</label>
-                    <input type="number" step="0.1" class="form-input" id="weight" required>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="height">Height (m)</label>
-                    <input type="number" step="0.01" class="form-input" id="height" required>
-                </div>
-                <button type="button" class="btn btn-primary" onclick="calculateBMI()">Calculate BMI</button>
-                <div class="note-editor" style="margin-top: 1.5rem;">
-                    <h4 style="color: var(--primary); margin-bottom: 0.5rem;">Result</h4>
-                    <p id="bmiResult">Enter values and click calculate.</p>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">Login</button>
                 </div>
             </form>
         </div>
     </div>
 
+    <!-- About Editor Modal -->
     <div id="aboutEditorModal" class="modal">
-        <div class="modal-content">
+        <div class="modal-content" style="max-width: 800px;">
             <div class="modal-header">
-                <h2>Edit About Content</h2>
+                <h2>Edit About Page</h2>
                 <button class="close-btn" onclick="closeAboutEditor()">&times;</button>
             </div>
-            <form id="aboutEditorForm">
-                <div class="form-group">
-                    <label class="form-label" for="aboutEditorContent">About Page Content (HTML allowed)</label>
-                    <textarea class="form-textarea" id="aboutEditorContent" rows="15"></textarea>
+            <div class="note-editor">
+                <div class="editor-toolbar">
+                    <button type="button" class="editor-btn" onclick="formatAboutText('bold')" title="Bold">
+                        <i class="fas fa-bold"></i>
+                    </button>
+                    <button type="button" class="editor-btn" onclick="formatAboutText('italic')" title="Italic">
+                        <i class="fas fa-italic"></i>
+                    </button>
+                    <button type="button" class="editor-btn" onclick="formatAboutText('underline')" title="Underline">
+                        <i class="fas fa-underline"></i>
+                    </button>
+                    <button type="button" class="editor-btn" onclick="insertAboutHeading()" title="Insert Heading">
+                        <i class="fas fa-heading"></i>
+                    </button>
+                    <button type="button" class="editor-btn" onclick="insertAboutList()" title="Insert List">
+                        <i class="fas fa-list-ul"></i>
+                    </button>
+                    <button type="button" class="editor-btn" onclick="insertAboutLink()" title="Insert Link">
+                        <i class="fas fa-link"></i>
+                    </button>
                 </div>
+                <div class="rich-editor" id="aboutEditor" contenteditable="true"></div>
+            </div>
+            <div class="form-group" style="margin-top: 1rem;">
                 <button type="button" class="btn btn-primary" onclick="saveAboutContent()">Save Changes</button>
-            </form>
+                <button type="button" class="btn btn-secondary" onclick="closeAboutEditor()" style="margin-left: 1rem;">Cancel</button>
+            </div>
         </div>
     </div>
-    
-    <script src="app.js"></script>
-    <script>
-        // Placeholder for the main application logic that shows/hides pages
-        let currentView = 'homePage';
-        let currentCategory = ''; // Stores the current main category (Medical, Surgical, Specialty)
 
-        function showPage(pageId) {
+    <script>
+        // Application State
+        let currentUser = null;
+        let currentPage = 'home';
+        let currentCategory = null;
+        let currentSubcategory = null;
+        let currentNote = null;
+        let editingNoteId = null;
+        let isDarkMode = false;
+
+        // Admin credentials
+        const ADMIN_EMAIL = 'imenemazouz05@gmail.com';
+        const ADMIN_PASSWORD = 'zainhanouni%2010';
+
+        // Sample data structure
+        const categories = {
+            Medical: {
+                icon: '🩺',
+                description: 'Comprehensive medical conditions, diagnostics, and treatment protocols',
+                subcategories: {
+                    'Cardiology': { noteCount: 8 },
+                    'Endocrinology': { noteCount: 6 },
+                    'Respiratory': { noteCount: 7 },
+                    'Gastroenterology': { noteCount: 5 }
+                }
+            },
+            Surgical: {
+                icon: '🔪',
+                description: 'Surgical procedures, techniques, and perioperative care',
+                subcategories: {
+                    'General Surgery': { noteCount: 10 },
+                    'Orthopedics': { noteCount: 8 },
+                    'Neurosurgery': { noteCount: 6 }
+                }
+            },
+            Specialty: {
+                icon: '⚕️',
+                description: 'Specialized medical fields and advanced practice areas',
+                subcategories: {
+                    'Psychiatry': { noteCount: 9 },
+                    'Dermatology': { noteCount: 7 },
+                    'Radiology': { noteCount: 8 }
+                }
+            }
+        };
+
+        // Notes data structure
+        let notes = {
+            published: [
+                {
+                    id: 1,
+                    title: 'Hypertension Management',
+                    category: 'Medical',
+                    subcategory: 'Cardiology',
+                    views: 1247,
+                    content: `<h2>Hypertension Management Guidelines</h2>
+                    
+                    <h3>Definition</h3>
+                    <p>Hypertension is defined as systolic blood pressure ≥140 mmHg and/or diastolic blood pressure ≥90 mmHg on repeated measurements.</p>
+                    
+                    <h3>Classification</h3>
+                    <ul>
+                        <li><strong>Normal:</strong> &lt;120/80 mmHg</li>
+                        <li><strong>Elevated:</strong> 120-129/&lt;80 mmHg</li>
+                        <li><strong>Stage 1:</strong> 130-139/80-89 mmHg</li>
+                        <li><strong>Stage 2:</strong> ≥140/≥90 mmHg</li>
+                        <li><strong>Hypertensive Crisis:</strong> &gt;180/&gt;120 mmHg</li>
+                    </ul>
+                    
+                    <h3>Risk Factors</h3>
+                    <ul>
+                        <li>Age (men &gt;45, women &gt;55)</li>
+                        <li>Family history</li>
+                        <li>Obesity (BMI ≥30)</li>
+                        <li>Sedentary lifestyle</li>
+                        <li>Excessive sodium intake</li>
+                        <li>Excessive alcohol consumption</li>
+                        <li>Smoking</li>
+                        <li>Diabetes mellitus</li>
+                        <li>Chronic kidney disease</li>
+                    </ul>
+                    
+                    <h3>Initial Assessment</h3>
+                    <p><strong>History:</strong> Duration, symptoms, medications, family history, lifestyle factors</p>
+                    <p><strong>Physical Exam:</strong> Multiple BP readings, BMI, cardiovascular examination, fundoscopy</p>
+                    <p><strong>Laboratory Tests:</strong></p>
+                    <ul>
+                        <li>Complete blood count</li>
+                        <li>Basic metabolic panel</li>
+                        <li>Lipid profile</li>
+                        <li>HbA1c or fasting glucose</li>
+                        <li>Urinalysis</li>
+                        <li>ECG</li>
+                    </ul>
+                    
+                    <h3>Treatment Goals</h3>
+                    <ul>
+                        <li><strong>General population:</strong> &lt;140/90 mmHg</li>
+                        <li><strong>Diabetes/CKD:</strong> &lt;130/80 mmHg</li>
+                        <li><strong>Age ≥65:</strong> &lt;150/90 mmHg</li>
+                    </ul>
+                    
+                    <h3>Lifestyle Modifications</h3>
+                    <ol>
+                        <li><strong>Weight loss:</strong> Goal BMI 18.5-24.9</li>
+                        <li><strong>DASH diet:</strong> Fruits, vegetables, low-fat dairy, reduced sodium</li>
+                        <li><strong>Sodium restriction:</strong> &lt;2.3g/day (ideally &lt;1.5g/day)</li>
+                        <li><strong>Regular exercise:</strong> 150 min/week moderate aerobic activity</li>
+                        <li><strong>Limit alcohol:</strong> ≤2 drinks/day men, ≤1 drink/day women</li>
+                        <li><strong>Smoking cessation</strong></li>
+                    </ol>
+                    
+                    <h3>Pharmacological Treatment</h3>
+                    <p><strong>First-line agents:</strong></p>
+                    <ul>
+                        <li><strong>ACE inhibitors:</strong> Lisinopril 10-40mg daily</li>
+                        <li><strong>ARBs:</strong> Losartan 50-100mg daily</li>
+                        <li><strong>Thiazide diuretics:</strong> HCTZ 12.5-25mg daily</li>
+                        <li><strong>CCBs:</strong> Amlodipine 2.5-10mg daily</li>
+                    </ul>
+                    
+                    <p><strong>Combination therapy:</strong> If single agent insufficient, add second agent from different class</p>
+                    
+                    <h3>Follow-up</h3>
+                    <ul>
+                        <li>Monthly visits until BP goal achieved</li>
+                        <li>Every 3-6 months once stable</li>
+                        <li>Annual laboratory monitoring</li>
+                        <li>Annual cardiovascular risk assessment</li>
+                    </ul>
+                    
+                    <h3>Hypertensive Emergency</h3>
+                    <p><strong>Definition:</strong> BP &gt;180/120 mmHg with target organ damage</p>
+                    <p><strong>Management:</strong></p>
+                    <ul>
+                        <li>IV antihypertensives (nicardipine, clevidipine, labetalol)</li>
+                        <li>Reduce BP by 10-15% in first hour</li>
+                        <li>Avoid sublingual nifedipine</li>
+                        <li>Monitor for signs of end-organ damage</li>
+                    </ul>`
+                },
+                {
+                    id: 2,
+                    title: 'Acute Appendicitis',
+                    category: 'Surgical',
+                    subcategory: 'General Surgery',
+                    views: 892,
+                    content: `<h2>Acute Appendicitis</h2>
+                    
+                    <h3>Overview</h3>
+                    <p>Acute appendicitis is inflammation of the vermiform appendix, typically caused by luminal obstruction leading to bacterial overgrowth, increased intraluminal pressure, and potential perforation.</p>
+                    
+                    <h3>Epidemiology</h3>
+                    <ul>
+                        <li>Lifetime risk: ~7-9%</li>
+                        <li>Peak incidence: 10-30 years</li>
+                        <li>Slight male predominance</li>
+                        <li>Most common cause of acute abdomen requiring surgery</li>
+                    </ul>
+                    
+                    <h3>Pathophysiology</h3>
+                    <ol>
+                        <li><strong>Obstruction:</strong> Fecalith, lymphoid hyperplasia, foreign body, tumor</li>
+                        <li><strong>Bacterial overgrowth:</strong> Normal flora becomes pathogenic</li>
+                        <li><strong>Inflammation:</strong> Increased intraluminal pressure</li>
+                        <li><strong>Ischemia:</strong> Compromised blood supply</li>
+                        <li><strong>Necrosis &amp; Perforation:</strong> If untreated</li>
+                    </ol>
+                    
+                    <h3>Clinical Presentation</h3>
+                    <p><strong>Classic presentation (only 50% of cases):</strong></p>
+                    <ol>
+                        <li>Periumbilical pain → RLQ pain (McBurney's point)</li>
+                        <li>Anorexia, nausea, vomiting</li>
+                        <li>Low-grade fever</li>
+                    </ol>
+                    
+                    <p><strong>Physical Examination:</strong></p>
+                    <ul>
+                        <li><strong>McBurney's point:</strong> 1/3 distance from ASIS to umbilicus</li>
+                        <li><strong>Rovsing's sign:</strong> RLQ pain with LLQ palpation</li>
+                        <li><strong>Psoas sign:</strong> Pain with right hip extension</li>
+                        <li><strong>Obturator sign:</strong> Pain with internal rotation of flexed right hip</li>
+                        <li><strong>Guarding &amp; rebound tenderness</strong></li>
+                    </ul>
+                    
+                    <h3>Differential Diagnosis</h3>
+                    <ul>
+                        <li><strong>GI:</strong> IBD, gastroenteritis, diverticulitis, bowel obstruction</li>
+                        <li><strong>GU:</strong> UTI, nephrolithiasis, testicular torsion</li>
+                        <li><strong>Gynecologic:</strong> Ovarian cyst, torsion, PID, ectopic pregnancy</li>
+                        <li><strong>Other:</strong> Mesenteric lymphadenitis, Meckel's diverticulitis</li>
+                    </ul>
+                    
+                    <h3>Diagnostic Workup</h3>
+                    <p><strong>Laboratory:</strong></p>
+                    <ul>
+                        <li>CBC: Leukocytosis with left shift</li>
+                        <li>CMP: Rule out other conditions</li>
+                        <li>Urinalysis: Rule out UTI/stones</li>
+                        <li>β-hCG: Rule out pregnancy</li>
+                    </ul>
+                    
+                    <p><strong>Imaging:</strong></p>
+                    <ul>
+                        <li><strong>CT abdomen/pelvis with contrast:</strong> Gold standard (sensitivity 94%, specificity 95%)</li>
+                        <li><strong>Ultrasound:</strong> First-line in children and pregnant women</li>
+                        <li><strong>MRI:</strong> Alternative in pregnancy</li>
+                    </ul>
+                    
+                    <h3>Scoring Systems</h3>
+                    <p><strong>Alvarado Score:</strong></p>
+                    <ul>
+                        <li>Migration to RLQ (1 point)</li>
+                        <li>Anorexia (1 point)</li>
+                        <li>Nausea/vomiting (1 point)</li>
+                        <li>RLQ tenderness (2 points)</li>
+                        <li>Rebound pain (1 point)</li>
+                        <li>Temperature &gt;37.3°C (1 point)</li>
+                        <li>Leukocytosis (2 points)</li>
+                        <li>Left shift (1 point)</li>
+                    </ul>
+                    <p><em>Score ≥7: High probability; Score 5-6: Equivocal; Score &lt;5: Low probability</em></p>
+                    
+                    <h3>Management</h3>
+                    <p><strong>Conservative (select cases):</strong></p>
+                    <ul>
+                        <li>Antibiotics for uncomplicated appendicitis in selected patients</li>
+                        <li>Success rate ~70-80%</li>
+                        <li>Risk of recurrence ~20-30%</li>
+                    </ul>
+                    
+                    <p><strong>Surgical:</strong></p>
+                    <ul>
+                        <li><strong>Laparoscopic appendectomy:</strong> Gold standard</li>
+                        <li><strong>Open appendectomy:</strong> If laparoscopy contraindicated</li>
+                        <li>Prophylactic antibiotics: Single dose cefazolin + metronidazole</li>
+                    </ul>
+                    
+                    <h3>Complications</h3>
+                    <ul>
+                        <li><strong>Perforation:</strong> 15-20% of cases</li>
+                        <li><strong>Abscess formation:</strong> May require percutaneous drainage</li>
+                        <li><strong>Peritonitis:</strong> Generalized infection</li>
+                        <li><strong>Sepsis:</strong> Systemic inflammatory response</li>
+                        <li><strong>Bowel obstruction:</strong> Post-operative adhesions</li>
+                    </ul>
+                    
+                    <h3>Special Populations</h3>
+                    <p><strong>Pediatric:</strong></p>
+                    <ul>
+                        <li>Higher perforation rate (30-50%)</li>
+                        <li>Ultrasound first-line imaging</li>
+                        <li>Consider alternative diagnoses</li>
+                    </ul>
+                    
+                    <p><strong>Elderly:</strong></p>
+                    <ul>
+                        <li>Atypical presentation common</li>
+                        <li>Higher morbidity and mortality</li>
+                        <li>Lower threshold for imaging</li>
+                    </ul>
+                    
+                    <p><strong>Pregnancy:</strong></p>
+                    <ul>
+                        <li>Most common non-obstetric surgical emergency</li>
+                        <li>MRI or ultrasound for imaging</li>
+                        <li>Laparoscopic approach safe in all trimesters</li>
+                    </ul>`
+                },
+                {
+                    id: 3,
+                    title: 'Schizophrenia DSM-5 Criteria',
+                    category: 'Specialty',
+                    subcategory: 'Psychiatry',
+                    views: 653,
+                    content: `<h2>Schizophrenia - DSM-5 Diagnostic Criteria</h2>
+                    
+                    <h3>Overview</h3>
+                    <p>Schizophrenia is a chronic mental health disorder characterized by delusions, hallucinations, disorganized thinking, and abnormal motor behavior that significantly impairs functioning.</p>
+                    
+                    <h3>DSM-5 Diagnostic Criteria</h3>
+                    <p><strong>Criterion A: Characteristic symptoms (≥2 for ≥1 month):</strong></p>
+                    <ol>
+                        <li><strong>Delusions</strong></li>
+                        <li><strong>Hallucinations</strong></li>
+                        <li><strong>Disorganized speech</strong></li>
+                        <li><strong>Grossly disorganized or catatonic behavior</strong></li>
+                        <li><strong>Negative symptoms</strong> (diminished emotional expression or avolition)</li>
+                    </ol>
+                    <p><em>Note: At least one symptom must be delusions, hallucinations, or disorganized speech</em></p>
+                    
+                    <p><strong>Criterion B: Functional impairment</strong></p>
+                    <ul>
+                        <li>Significant decline in work, interpersonal relations, or self-care</li>
+                        <li>Functioning substantially below premorbid level</li>
+                    </ul>
+                    
+                    <p><strong>Criterion C: Duration</strong></p>
+                    <ul>
+                        <li>Continuous signs for ≥6 months</li>
+                        <li>Must include ≥1 month of Criterion A symptoms</li>
+                        <li>May include prodromal or residual symptoms</li>
+                    </ul>
+                    
+                    <p><strong>Criterion D: Exclusion of other disorders</strong></p>
+                    <ul>
+                        <li>Schizoaffective disorder excluded</li>
+                        <li>Depressive/manic episodes minimal relative to psychotic symptoms</li>
+                    </ul>
+                    
+                    <p><strong>Criterion E: Substance/medical exclusion</strong></p>
+                    <ul>
+                        <li>Not attributable to substance use</li>
+                        <li>Not due to medical condition</li>
+                    </ul>
+                    
+                    <p><strong>Criterion F: Autism spectrum consideration</strong></p>
+                    <ul>
+                        <li>If history of autism spectrum disorder, additional diagnosis only if prominent delusions/hallucinations present ≥1 month</li>
+                    </ul>
+                    
+                    <h3>Positive Symptoms</h3>
+                    <p><strong>Delusions:</strong></p>
+                    <ul>
+                        <li><strong>Persecutory:</strong> Belief of being harassed, threatened</li>
+                        <li><strong>Grandiose:</strong> Inflated self-worth, special powers</li>
+                        <li><strong>Somatic:</strong> False beliefs about body/health</li>
+                        <li><strong>Religious:</strong> Special relationship with deity</li>
+                        <li><strong>Referential:</strong> Neutral events have special meaning</li>
+                        <li><strong>Control:</strong> Thoughts/actions controlled by external force</li>
+                    </ul>
+                    
+                    <p><strong>Hallucinations:</strong></p>
+                    <ul>
+                        <li><strong>Auditory:</strong> Most common (70-90%)</li>
+                        <li><strong>Visual:</strong> Less common, may suggest medical cause</li>
+                        <li><strong>Tactile, olfactory, gustatory:</strong> Rare</li>
+                    </ul>
+                    
+                    <p><strong>Disorganized Thinking/Speech:</strong></p>
+                    <ul>
+                        <li><strong>Derailment:</strong> Loose associations between ideas</li>
+                        <li><strong>Tangentiality:</strong> Goes off on tangents</li>
+                        <li><strong>Circumstantiality:</strong> Excessive unnecessary detail</li>
+                        <li><strong>Word salad:</strong> Incoherent mixture of words</li>
+                        <li><strong>Neologisms:</strong> Made-up words</li>
+                    </ul>
+                    
+                    <h3>Negative Symptoms</h3>
+                    <ul>
+                        <li><strong>Affective flattening:</strong> Reduced emotional expression</li>
+                        <li><strong>Avolition:</strong> Decreased motivation/goal-directed behavior</li>
+                        <li><strong>Alogia:</strong> Poverty of speech</li>
+                        <li><strong>Anhedonia:</strong> Inability to experience pleasure</li>
+                        <li><strong>Asociality:</strong> Reduced social engagement</li>
+                    </ul>
+                    
+                    <h3>Cognitive Symptoms</h3>
+                    <ul>
+                        <li>Working memory deficits</li>
+                        <li>Attention/concentration problems</li>
+                        <li>Executive function impairment</li>
+                        <li>Processing speed reduction</li>
+                    </ul>
+                    
+                    <h3>Epidemiology</h3>
+                    <ul>
+                        <li><strong>Prevalence:</strong> ~1% worldwide</li>
+                        <li><strong>Age of onset:</strong> Late teens to early 30s</li>
+                        <li><strong>Gender:</strong> Equal prevalence, males earlier onset</li>
+                        <li><strong>Course:</strong> Chronic with periods of exacerbation/remission</li>
+                    </ul>
+                    
+                    <h3>Risk Factors</h3>
+                    <ul>
+                        <li><strong>Genetic:</strong> Family history (heritability ~80%)</li>
+                        <li><strong>Environmental:</strong> Urban birth, migration, social adversity</li>
+                        <li><strong>Substance use:</strong> Cannabis, stimulants</li>
+                        <li><strong>Obstetric complications:</strong> Hypoxia, infections</li>
+                        <li><strong>Viral infections:</strong> Influenza during pregnancy</li>
+                    </ul>
+                    
+                    <h3>Treatment</h3>
+                    <p><strong>Antipsychotic Medications:</strong></p>
+                    <ul>
+                        <li><strong>First-generation (typical):</strong> Haloperidol, chlorpromazine</li>
+                        <li><strong>Second-generation (atypical):</strong> Risperidone, olanzapine, quetiapine, aripiprazole</li>
+                        <li><strong>Long-acting injectables:</strong> For medication adherence</li>
+                    </ul>
+                    
+                    <p><strong>Psychosocial Interventions:</strong></p>
+                    <ul>
+                        <li>Cognitive behavioral therapy (CBT)</li>
+                        <li>Family therapy and education</li>
+                        <li>Social skills training</li>
+                        <li>Vocational rehabilitation</li>
+                        <li>Case management</li>
+                    </ul>
+                    
+                    <h3>Prognosis</h3>
+                    <ul>
+                        <li>~25% significant recovery</li>
+                        <li>~50% moderate improvement</li>
+                        <li>~25% poor outcome</li>
+                        <li>Better prognosis: Later onset, female gender, good premorbid functioning, acute onset</li>
+                    </ul>
+                    
+                    <h3>Complications</h3>
+                    <ul>
+                        <li>Suicide risk (10% lifetime)</li>
+                        <li>Substance abuse (50%)</li>
+                        <li>Medical comorbidities</li>
+                        <li>Reduced life expectancy (15-20 years)</li>
+                        <li>Functional disability</li>
+                    </ul>`
+                }
+            ],
+            drafts: [],
+            deleted: []
+        };
+
+        // Theme functions
+        function toggleTheme() {
+            isDarkMode = !isDarkMode;
+            document.body.setAttribute('data-theme', isDarkMode ? 'dark' : 'light');
+        }
+        
+        function initializeTheme() {
+            // Check system preference for initial theme
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                isDarkMode = true;
+                document.body.setAttribute('data-theme', 'dark');
+            }
+        }
+
+        // Utility functions
+        function hideAllPages() {
             document.querySelectorAll('.page').forEach(page => {
                 page.classList.add('hidden');
             });
-            document.getElementById(pageId).classList.remove('hidden');
-            currentView = pageId;
-            window.scrollTo(0, 0); // Scroll to top when changing views
-            // Hide all admin controls in the page navigation on view change
-            document.getElementById('userDropdownContent').style.display = 'none'; 
         }
 
-        function showHome() { showPage('homePage'); }
-        function showLibrary() { showPage('libraryPage'); }
-        function showTools() { showPage('toolsPage'); }
-        function showIA() { showPage('iapage'); }
-        function showAbout() { showPage('aboutPage'); }
-        function showAdminDashboard() { showPage('adminDashboard'); }
-
-        function showCategory(category) {
-            currentCategory = category;
-            document.getElementById('categoryTitle').textContent = category;
-            document.getElementById('categoryDescription').textContent = `Explore all subcategories within the ${category} field.`;
-            // In a real application, you would fetch and render subcategory data here
-            const subcategoriesContainer = document.getElementById('subcategoriesContainer');
-            subcategoriesContainer.innerHTML = '';
-            
-            const subcategoriesData = {
-                'Medical': [
-                    { title: 'Cardiology', count: 12 },
-                    { title: 'Endocrinology', count: 8 },
-                    { title: 'Respiratory', count: 15 },
-                    { title: 'Gastroenterology', count: 9 }
-                ],
-                'Surgical': [
-                    { title: 'General Surgery', count: 10 },
-                    { title: 'Orthopedics', count: 7 },
-                    { title: 'Neurosurgery', count: 5 }
-                ],
-                'Specialty': [
-                    { title: 'Psychiatry', count: 18 },
-                    { title: 'Dermatology', count: 6 },
-                    { title: 'Radiology', count: 4 }
-                ]
-            };
-
-            subcategoriesData[category]?.forEach(sub => {
-                const card = document.createElement('div');
-                card.className = 'subcategory-card';
-                card.onclick = () => showNoteList(sub.title, category);
-                card.innerHTML = `
-                    <div class="admin-controls">
-                        <button class="admin-btn edit" onclick="event.stopPropagation(); editSubcategory('${category}', '${sub.title}')" title="Edit Subcategory"><i class="fas fa-pen"></i></button>
-                        <button class="admin-btn delete" onclick="event.stopPropagation(); deleteSubcategory('${category}', '${sub.title}')" title="Delete Subcategory"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                    <h4>${sub.title}</h4>
-                    <span class="note-count">${sub.count} Notes</span>
-                `;
-                subcategoriesContainer.appendChild(card);
+        function updateNavigation() {
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
             });
-            
-            showPage('categoryPage');
-        }
-
-        // New function to show the list of notes for a selected subcategory
-        function showNoteList(subcategory, category) {
-            // Set the state for navigation
-            currentSubcategory = subcategory;
-            currentCategory = category;
-            
-            document.getElementById('noteListTitle').textContent = subcategory;
-            document.getElementById('noteListDescription').textContent = `All high-yield notes for the ${subcategory} topic.`;
-            document.querySelector('#noteListPage .back-btn').onclick = () => showCategory(category);
-            
-            const noteContainer = document.getElementById('noteContainer');
-            noteContainer.innerHTML = '';
-
-            // Placeholder note data
-            const notesData = [
-                { id: 1, title: 'Acute Myocardial Infarction', date: 'Oct 2024', views: 450 },
-                { id: 2, title: 'Management of Type 2 Diabetes', date: 'Sep 2024', views: 320 },
-                { id: 3, title: 'Invasive Ductal Carcinoma Staging', date: 'Aug 2024', views: 150 }
-            ];
-
-            notesData.forEach(note => {
-                const noteItem = document.createElement('div');
-                noteItem.className = 'note-item';
-                // In a real app, this would call a function to load the full note
-                noteItem.onclick = () => showNote(note.id);
-                noteItem.innerHTML = `
-                    <div class="note-info">
-                        <h4>${note.title}</h4>
-                        <div class="note-meta">${subcategory} &bull; ${note.date}</div>
-                    </div>
-                    <div class="note-views">${note.views} views</div>
-                    <div class="admin-controls" style="right: 80px;">
-                        <button class="admin-btn edit" onclick="event.stopPropagation(); editNote(${note.id})" title="Edit Note"><i class="fas fa-pen"></i></button>
-                        <button class="admin-btn delete" onclick="event.stopPropagation(); deleteNote(${note.id})" title="Delete Note"><i class="fas fa-trash-alt"></i></button>
-                    </div>
-                `;
-                noteContainer.appendChild(noteItem);
-            });
-            
-            showPage('noteListPage'); // Show the new notes list page
-        }
-
-        function showNote(noteId) {
-            // Placeholder logic to show a single note
-            document.getElementById('noteTitle').textContent = 'Sample Note Title';
-            document.getElementById('noteMeta').innerHTML = 'Cardiology &bull; Oct 2024 &bull; By Admin';
-            document.getElementById('noteBody').innerHTML = `<p>This is the full content of the medical note (ID: ${noteId}). In a real application, the content would be fetched from the database and rendered here.</p>`;
-            document.getElementById('progressFill').style.width = '25%';
-            document.getElementById('progressText').textContent = '25%';
-            document.querySelector('#notePage .back-btn').onclick = () => showNoteList(currentSubcategory, currentCategory);
-            showPage('notePage');
-        }
-
-        // --- Authentication/Admin Functions (Simplified) ---
-
-        let user = null; 
-        const ADMIN_EMAIL = 'admin@medmaster.com';
-        const ADMIN_PASS = 'password';
-
-        function toggleLogin() {
-            document.getElementById('loginModal').style.display = 'flex';
-        }
-        function closeLogin() {
-            document.getElementById('loginModal').style.display = 'none';
-        }
-
-        function showSignup() {
-             document.getElementById('signupModal').style.display = 'flex';
-        }
-        function closeSignup() {
-             document.getElementById('signupModal').style.display = 'none';
-        }
-
-        function toggleUserMenu() {
-            const dropdown = document.getElementById('userDropdownContent');
-            dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
         }
 
         function updateLoginButton() {
             const authButtons = document.getElementById('authButtons');
             const userMenu = document.getElementById('userMenu');
-            if (user && user.role === 'admin') {
+            
+            if (currentUser) {
                 authButtons.classList.add('hidden');
                 userMenu.classList.remove('hidden');
                 document.body.classList.add('admin-logged-in');
+                showAdminControls();
             } else {
                 authButtons.classList.remove('hidden');
                 userMenu.classList.add('hidden');
                 document.body.classList.remove('admin-logged-in');
+                hideAdminControls();
             }
         }
-        
+
+        function toggleUserMenu() {
+            const dropdown = document.getElementById('userDropdownContent');
+            dropdown.style.display = dropdown.style.display === 'block' ? 'none' : 'block';
+        }
+
         function logout() {
-            user = null;
+            currentUser = null;
             updateLoginButton();
             showHome();
+            document.getElementById('userDropdownContent').style.display = 'none';
         }
 
-        // --- Modal/Tool Functions (Simplified) ---
-        function showTool(tool) {
-            // Close other modals and open the selected tool modal
-            document.getElementById('bmiModal').style.display = 'none';
-            if (tool === 'BMI') {
-                document.getElementById('bmiModal').style.display = 'flex';
-            }
-        }
-        function closeTool() {
-            document.getElementById('bmiModal').style.display = 'none';
+        function showSignup() {
+            alert('Sign up functionality coming soon!');
         }
 
-        function calculateBMI() {
-            const weight = parseFloat(document.getElementById('weight').value);
-            const height = parseFloat(document.getElementById('height').value);
-            let resultText = "Enter valid values.";
+        function showAdminControls() {
+            const adminControls = document.querySelectorAll('.admin-controls');
+            adminControls.forEach(control => {
+                control.style.display = 'flex';
+            });
+        }
 
-            if (weight > 0 && height > 0) {
-                const bmi = weight / (height * height);
-                let classification = '';
-                if (bmi < 18.5) {
-                    classification = 'Underweight';
-                } else if (bmi >= 18.5 && bmi <= 24.9) {
-                    classification = 'Normal Weight';
-                } else if (bmi >= 25 && bmi <= 29.9) {
-                    classification = 'Overweight';
-                } else {
-                    classification = 'Obesity';
+        function hideAdminControls() {
+            const adminControls = document.querySelectorAll('.admin-controls');
+            adminControls.forEach(control => {
+                control.style.display = 'none';
+                control.style.opacity = '0';
+            });
+        }
+
+        // Admin edit functions
+        function editCategory(categoryName) {
+            if (!currentUser) return;
+            const newName = prompt(`Edit category name:`, categoryName);
+            if (newName && newName !== categoryName) {
+                // Update category name in data structure
+                if (categories[categoryName]) {
+                    categories[newName] = categories[categoryName];
+                    delete categories[categoryName];
+                    
+                    // Update all notes with this category
+                    notes.published.forEach(note => {
+                        if (note.category === categoryName) {
+                            note.category = newName;
+                        }
+                    });
+                    
+                    // Refresh current view
+                    if (currentPage === 'home') showHome();
+                    else if (currentPage === 'library') showLibrary();
+                    
+                    alert(`Category renamed to ${newName}`);
                 }
-                resultText = `BMI: ${bmi.toFixed(2)} (${classification})`;
             }
-            document.getElementById('bmiResult').textContent = resultText;
         }
 
-        // --- Main App Initialization ---
-        document.addEventListener('DOMContentLoaded', function() {
-            // Initial view
-            showHome();
+        function addSubcategory(categoryName) {
+            if (!currentUser) return;
+            const subcatName = prompt(`Add new subcategory to ${categoryName}:`);
+            if (subcatName) {
+                if (!categories[categoryName].subcategories[subcatName]) {
+                    categories[categoryName].subcategories[subcatName] = { noteCount: 0 };
+                    alert(`Subcategory "${subcatName}" added to ${categoryName}`);
+                    
+                    // Refresh current view
+                    if (currentCategory === categoryName) {
+                        showCategory(categoryName);
+                    }
+                } else {
+                    alert('Subcategory already exists!');
+                }
+            }
+        }
 
-            // Handle login form submission (simplified)
+        function editAboutContent() {
+            if (!currentUser) return;
+            showAboutEditor();
+        }
+
+        function showAboutEditor() {
+            const modal = document.getElementById('aboutEditorModal');
+            const editor = document.getElementById('aboutEditor');
+            const aboutContent = document.getElementById('aboutContent');
+            
+            editor.innerHTML = aboutContent.innerHTML;
+            modal.style.display = 'block';
+        }
+
+        function saveAboutContent() {
+            const editor = document.getElementById('aboutEditor');
+            const aboutContent = document.getElementById('aboutContent');
+            
+            aboutContent.innerHTML = editor.innerHTML;
+            closeAboutEditor();
+            alert('About page content updated successfully!');
+        }
+
+        function closeAboutEditor() {
+            document.getElementById('aboutEditorModal').style.display = 'none';
+        }
+
+        function editToolsContent() {
+            if (!currentUser) return;
+            alert('Tools page editing functionality coming soon!');
+        }
+
+        // Rich text editor functions
+        function formatText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('noteFormContent').focus();
+        }
+
+        function insertHeading() {
+            const text = prompt('Enter heading text:');
+            if (text) {
+                document.execCommand('insertHTML', false, `<h3>${text}</h3>`);
+            }
+        }
+
+        function insertList() {
+            document.execCommand('insertUnorderedList', false, null);
+        }
+
+        function insertLink() {
+            const url = prompt('Enter URL:');
+            const text = prompt('Enter link text:');
+            if (url && text) {
+                document.execCommand('insertHTML', false, `<a href="${url}" target="_blank">${text}</a>`);
+            }
+        }
+
+        function insertImage() {
+            const url = prompt('Enter image URL:');
+            const alt = prompt('Enter image description:');
+            if (url && alt) {
+                document.execCommand('insertHTML', false, `<img src="${url}" alt="${alt}" style="max-width: 100%; height: auto;">`);
+            }
+        }
+
+        // About editor functions
+        function formatAboutText(command) {
+            document.execCommand(command, false, null);
+            document.getElementById('aboutEditor').focus();
+        }
+
+        function insertAboutHeading() {
+            const text = prompt('Enter heading text:');
+            if (text) {
+                document.execCommand('insertHTML', false, `<h3>${text}</h3>`);
+            }
+        }
+
+        function insertAboutList() {
+            document.execCommand('insertUnorderedList', false, null);
+        }
+
+        function insertAboutLink() {
+            const url = prompt('Enter URL:');
+            const text = prompt('Enter link text:');
+            if (url && text) {
+                document.execCommand('insertHTML', false, `<a href="${url}" target="_blank">${text}</a>`);
+            }
+        }
+
+        // Navigation functions
+        function showHome() {
+            hideAllPages();
+            updateNavigation();
+            document.getElementById('homePage').classList.remove('hidden');
+            currentPage = 'home';
+        }
+
+        function showLibrary() {
+            hideAllPages();
+            updateNavigation();
+            document.getElementById('libraryPage').classList.remove('hidden');
+            currentPage = 'library';
+        }
+
+        function showTools() {
+            hideAllPages();
+            updateNavigation();
+            document.getElementById('toolsPage').classList.remove('hidden');
+            currentPage = 'tools';
+        }
+
+        function showIA() {
+            hideAllPages();
+            updateNavigation();
+            document.getElementById('iaPage').classList.remove('hidden');
+            currentPage = 'ia';
+        }
+
+        function showAbout() {
+            hideAllPages();
+            updateNavigation();
+            document.getElementById('aboutPage').classList.remove('hidden');
+            currentPage = 'about';
+        }
+
+        function showCategory(categoryName) {
+            hideAllPages();
+            currentCategory = categoryName;
+            const category = categories[categoryName];
+            
+            document.getElementById('categoryTitle').textContent = categoryName;
+            document.getElementById('categoryDescription').textContent = category.description;
+            
+            const container = document.getElementById('subcategoriesContainer');
+            container.innerHTML = '';
+            
+            Object.keys(category.subcategories).forEach(subcat => {
+                const subcatData = category.subcategories[subcat];
+                const subcatCard = document.createElement('div');
+                subcatCard.className = 'subcategory-card';
+                subcatCard.onclick = () => showSubcategory(subcat);
+                subcatCard.innerHTML = `
+                    <div class="admin-controls">
+                        <button class="admin-btn edit" onclick="event.stopPropagation(); editSubcategory('${subcat}')" title="Edit Subcategory">
+                            <i class="fas fa-pen"></i>
+                        </button>
+                        <button class="admin-btn delete" onclick="event.stopPropagation(); deleteSubcategory('${subcat}')" title="Delete Subcategory">
+                            <i class="fas fa-trash-alt"></i>
+                        </button>
+                        <button class="admin-btn add" onclick="event.stopPropagation(); addNoteToSubcategory('${subcat}')" title="Add Note">
+                            <i class="fas fa-plus"></i>
+                        </button>
+                    </div>
+                    <span class="note-count">${subcatData.noteCount} notes</span>
+                    <h3>${subcat}</h3>
+                    <p>Click to explore ${subcat.toLowerCase()} notes</p>
+                `;
+                container.appendChild(subcatCard);
+            });
+            
+            document.getElementById('categoryPage').classList.remove('hidden');
+            currentPage = 'category';
+        }
+
+        function showSubcategory(subcategoryName) {
+            hideAllPages();
+            currentSubcategory = subcategoryName;
+            
+            document.getElementById('subcategoryTitle').textContent = subcategoryName;
+            document.getElementById('subcategoryDescription').textContent = `Explore ${subcategoryName.toLowerCase()} notes and clinical guidelines`;
+            
+            // Set up back button
+            document.getElementById('subcategoryBackBtn').onclick = () => showCategory(currentCategory);
+            
+            const container = document.getElementById('notesContainer');
+            container.innerHTML = '';
+            
+            // Filter notes by current category and subcategory
+            const filteredNotes = notes.published.filter(note => 
+                note.category === currentCategory && note.subcategory === subcategoryName
+            );
+            
+            if (filteredNotes.length === 0) {
+                if (currentUser) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-file-plus"></i>
+                            </div>
+                            <h3>No Notes Yet</h3>
+                            <p>This subcategory is empty. Start by adding your first note.</p>
+                            <button class="btn btn-primary" onclick="addNoteToSubcategory('${subcategoryName}')">
+                                <i class="fas fa-plus"></i> Add First Note
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-folder-open"></i>
+                            </div>
+                            <h3>No Notes Available</h3>
+                            <p>No notes are available in this category yet. Check back soon!</p>
+                        </div>
+                    `;
+                }
+            } else {
+                filteredNotes.forEach(note => {
+                    const noteCard = document.createElement('div');
+                    noteCard.className = 'note-item';
+                    noteCard.onclick = () => showNote(note.id);
+                    noteCard.innerHTML = `
+                        <div class="admin-controls">
+                            <button class="admin-btn edit" onclick="event.stopPropagation(); editNote(${note.id})" title="Edit Note">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="admin-btn delete" onclick="event.stopPropagation(); deleteNote(${note.id})" title="Delete Note">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <div class="note-info">
+                            <h4>${note.title}</h4>
+                            <div class="note-meta">${note.category} › ${note.subcategory}</div>
+                        </div>
+                        <div class="note-views">${note.views} views</div>
+                    `;
+                    container.appendChild(noteCard);
+                });
+            }
+            
+            document.getElementById('subcategoryPage').classList.remove('hidden');
+            currentPage = 'subcategory';
+        }
+
+        function showNote(noteId) {
+            hideAllPages();
+            currentNote = notes.published.find(note => note.id === noteId);
+            
+            if (!currentNote) return;
+            
+            // Increment view count
+            currentNote.views++;
+            
+            document.getElementById('noteTitle').textContent = currentNote.title;
+            document.getElementById('noteMeta').textContent = `${currentNote.category} › ${currentNote.subcategory} • ${currentNote.views} views`;
+            document.getElementById('noteBody').innerHTML = currentNote.content;
+            
+            // Set up back button
+            document.getElementById('noteBackBtn').onclick = () => showSubcategory(currentSubcategory);
+            
+            // Initialize progress tracking
+            let progress = 0;
+            updateProgress(progress);
+            
+            // Simulate reading progress
+            const noteBody = document.getElementById('noteBody');
+            noteBody.addEventListener('scroll', () => {
+                const scrollTop = noteBody.scrollTop;
+                const scrollHeight = noteBody.scrollHeight - noteBody.clientHeight;
+                progress = Math.min(100, Math.round((scrollTop / scrollHeight) * 100));
+                updateProgress(progress);
+            });
+            
+            document.getElementById('notePage').classList.remove('hidden');
+            currentPage = 'note';
+        }
+
+        function updateProgress(percentage) {
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressText').textContent = percentage + '%';
+        }
+
+        // Authentication functions
+        function toggleLogin() {
+            if (currentUser) {
+                showAdminDashboard();
+            } else {
+                document.getElementById('loginModal').style.display = 'block';
+            }
+        }
+
+        function closeLogin() {
+            document.getElementById('loginModal').style.display = 'none';
+        }
+
+        // Admin functions
+        function showAdminDashboard() {
+            if (!currentUser) return;
+            
+            hideAllPages();
+            updateAdminStats();
+            document.getElementById('adminDashboard').classList.remove('hidden');
+            currentPage = 'admin';
+        }
+
+        function updateAdminStats() {
+            document.getElementById('publishedCount').textContent = notes.published.length;
+            document.getElementById('draftsCount').textContent = notes.drafts.length;
+            document.getElementById('deletedCount').textContent = notes.deleted.length;
+            
+            const totalViews = notes.published.reduce((sum, note) => sum + note.views, 0);
+            document.getElementById('totalViews').textContent = totalViews;
+        }
+
+        function showAdminNotes(type) {
+            if (!currentUser) return;
+            
+            hideAllPages();
+            
+            const titles = {
+                published: 'Published Notes',
+                drafts: 'Draft Notes',
+                bin: 'Recycle Bin'
+            };
+            
+            const descriptions = {
+                published: 'Manage your published medical notes',
+                drafts: 'Complete and publish your draft notes',
+                bin: 'Restore or permanently delete notes'
+            };
+            
+            document.getElementById('adminNotesTitle').textContent = titles[type];
+            document.getElementById('adminNotesDescription').textContent = descriptions[type];
+            
+            const container = document.getElementById('adminNotesContainer');
+            container.innerHTML = '';
+            
+            const noteList = notes[type] || [];
+            
+            if (noteList.length === 0) {
+                container.innerHTML = `<p style="text-align: center; color: var(--text-light); padding: 2rem;">No ${type} notes found.</p>`;
+            } else {
+                noteList.forEach(note => {
+                    const noteCard = document.createElement('div');
+                    noteCard.className = 'note-item';
+                    
+                    const actions = getAdminNoteActions(note, type);
+                    
+                    noteCard.innerHTML = `
+                        <div class="note-info">
+                            <h4>${note.title}</h4>
+                            <div class="note-meta">${note.category} › ${note.subcategory}</div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem; align-items: center;">
+                            ${type === 'published' ? `<span class="note-views">${note.views} views</span>` : ''}
+                            ${actions}
+                        </div>
+                    `;
+                    container.appendChild(noteCard);
+                });
+            }
+            
+            document.getElementById('adminNotesPage').classList.remove('hidden');
+            currentPage = 'adminNotes';
+        }
+
+        function getAdminNoteActions(note, type) {
+            if (type === 'published') {
+                return `
+                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="editNote(${note.id})">Edit</button>
+                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="deleteNote(${note.id})">Delete</button>
+                `;
+            } else if (type === 'drafts') {
+                return `
+                    <button class="btn btn-primary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="editNote(${note.id}, true)">Edit</button>
+                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="publishDraft(${note.id})">Publish</button>
+                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="deleteDraft(${note.id})">Delete</button>
+                `;
+            } else if (type === 'bin') {
+                return `
+                    <button class="btn btn-success" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="restoreNote(${note.id})">Restore</button>
+                    <button class="btn btn-danger" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;" onclick="permanentlyDeleteNote(${note.id})">Delete Forever</button>
+                `;
+            }
+            return '';
+        }
+
+        function showAddNote() {
+            if (!currentUser) return;
+            
+            hideAllPages();
+            editingNoteId = null;
+            
+            document.getElementById('addNoteTitle').textContent = 'Add New Note';
+            document.getElementById('noteForm').reset();
+            populateSubcategories();
+            
+            document.getElementById('addNotePage').classList.remove('hidden');
+            currentPage = 'addNote';
+        }
+
+        function editNote(noteId, isDraft = false) {
+            if (!currentUser) return;
+            
+            hideAllPages();
+            editingNoteId = noteId;
+            
+            const noteList = isDraft ? notes.drafts : notes.published;
+            const note = noteList.find(n => n.id === noteId);
+            
+            if (!note) return;
+            
+            document.getElementById('addNoteTitle').textContent = 'Edit Note';
+            document.getElementById('noteFormTitle').value = note.title;
+            document.getElementById('noteFormCategory').value = note.category;
+            populateSubcategories();
+            document.getElementById('noteFormSubcategory').value = note.subcategory;
+            document.getElementById('noteFormContent').value = note.content.replace(/<[^>]*>/g, ''); // Strip HTML for editing
+            
+            document.getElementById('addNotePage').classList.remove('hidden');
+            currentPage = 'addNote';
+        }
+
+        function populateSubcategories() {
+            const categorySelect = document.getElementById('noteFormCategory');
+            const subcategorySelect = document.getElementById('noteFormSubcategory');
+            
+            categorySelect.addEventListener('change', function() {
+                const selectedCategory = this.value;
+                subcategorySelect.innerHTML = '<option value="">Select Subcategory</option>';
+                
+                if (selectedCategory && categories[selectedCategory]) {
+                    Object.keys(categories[selectedCategory].subcategories).forEach(subcat => {
+                        const option = document.createElement('option');
+                        option.value = subcat;
+                        option.textContent = subcat;
+                        subcategorySelect.appendChild(option);
+                    });
+                }
+            });
+            
+            // Trigger change event if category is already selected
+            if (categorySelect.value) {
+                categorySelect.dispatchEvent(new Event('change'));
+            }
+        }
+
+        function editSubcategory(subcatName) {
+            if (!currentUser) return;
+            const newName = prompt(`Edit subcategory name:`, subcatName);
+            if (newName && newName !== subcatName) {
+                // Update subcategory in current category
+                if (categories[currentCategory] && categories[currentCategory].subcategories[subcatName]) {
+                    categories[currentCategory].subcategories[newName] = categories[currentCategory].subcategories[subcatName];
+                    delete categories[currentCategory].subcategories[subcatName];
+                    
+                    // Update all notes with this subcategory
+                    notes.published.forEach(note => {
+                        if (note.subcategory === subcatName) {
+                            note.subcategory = newName;
+                        }
+                    });
+                    
+                    showCategory(currentCategory);
+                    alert(`Subcategory renamed to ${newName}`);
+                }
+            }
+        }
+
+        function deleteSubcategory(subcatName) {
+            if (!currentUser) return;
+            if (confirm(`Are you sure you want to delete the "${subcatName}" subcategory? This will also delete all notes in this subcategory.`)) {
+                // Remove subcategory
+                if (categories[currentCategory] && categories[currentCategory].subcategories[subcatName]) {
+                    delete categories[currentCategory].subcategories[subcatName];
+                    
+                    // Move all notes to deleted
+                    const notesToDelete = notes.published.filter(note => 
+                        note.category === currentCategory && note.subcategory === subcatName
+                    );
+                    notesToDelete.forEach(note => {
+                        const index = notes.published.indexOf(note);
+                        notes.published.splice(index, 1);
+                        notes.deleted.push(note);
+                    });
+                    
+                    showCategory(currentCategory);
+                    alert(`Subcategory "${subcatName}" deleted along with ${notesToDelete.length} notes`);
+                }
+            }
+        }
+
+        function addNoteToSubcategory(subcatName) {
+            if (!currentUser) return;
+            currentSubcategory = subcatName;
+            showAddNote();
+            // Pre-fill category and subcategory
+            document.getElementById('noteFormCategory').value = currentCategory;
+            populateSubcategories();
+            setTimeout(() => {
+                document.getElementById('noteFormSubcategory').value = subcatName;
+            }, 100);
+        }
+
+        function saveNote(isDraft) {
+            if (!currentUser) return;
+            
+            const title = document.getElementById('noteFormTitle').value;
+            const category = document.getElementById('noteFormCategory').value;
+            const subcategory = document.getElementById('noteFormSubcategory').value;
+            const content = document.getElementById('noteFormContent').innerHTML;
+            const sources = document.getElementById('noteFormSources').value;
+            const tags = document.getElementById('noteFormTags').value;
+            
+            if (!title || !category || !subcategory || !content) {
+                alert('Please fill in all required fields');
+                return;
+            }
+            
+            const note = {
+                id: editingNoteId || Date.now(),
+                title,
+                category,
+                subcategory,
+                content,
+                sources,
+                tags,
+                views: 0,
+                lastModified: new Date().toISOString()
+            };
+            
+            if (editingNoteId) {
+                // Update existing note
+                const publishedIndex = notes.published.findIndex(n => n.id === editingNoteId);
+                const draftIndex = notes.drafts.findIndex(n => n.id === editingNoteId);
+                
+                if (publishedIndex !== -1) {
+                    note.views = notes.published[publishedIndex].views; // Preserve view count
+                    if (isDraft) {
+                        notes.drafts.push(note);
+                        notes.published.splice(publishedIndex, 1);
+                    } else {
+                        notes.published[publishedIndex] = note;
+                    }
+                } else if (draftIndex !== -1) {
+                    if (isDraft) {
+                        notes.drafts[draftIndex] = note;
+                    } else {
+                        notes.published.push(note);
+                        notes.drafts.splice(draftIndex, 1);
+                    }
+                }
+            } else {
+                // Add new note
+                if (isDraft) {
+                    notes.drafts.push(note);
+                } else {
+                    notes.published.push(note);
+                }
+            }
+            
+            showAdminDashboard();
+        }
+
+        function deleteNote(noteId) {
+            if (!currentUser) return;
+            
+            if (confirm('Are you sure you want to delete this note? It will be moved to the recycle bin.')) {
+                const noteIndex = notes.published.findIndex(n => n.id === noteId);
+                if (noteIndex !== -1) {
+                    const note = notes.published.splice(noteIndex, 1)[0];
+                    notes.deleted.push(note);
+                    showAdminNotes('published');
+                }
+            }
+        }
+
+        function deleteDraft(noteId) {
+            if (!currentUser) return;
+            
+            if (confirm('Are you sure you want to delete this draft? It will be moved to the recycle bin.')) {
+                const noteIndex = notes.drafts.findIndex(n => n.id === noteId);
+                if (noteIndex !== -1) {
+                    const note = notes.drafts.splice(noteIndex, 1)[0];
+                    notes.deleted.push(note);
+                    showAdminNotes('drafts');
+                }
+            }
+        }
+
+        function publishDraft(noteId) {
+            if (!currentUser) return;
+            
+            const noteIndex = notes.drafts.findIndex(n => n.id === noteId);
+            if (noteIndex !== -1) {
+                const note = notes.drafts.splice(noteIndex, 1)[0];
+                notes.published.push(note);
+                showAdminNotes('drafts');
+            }
+        }
+
+        function restoreNote(noteId) {
+            if (!currentUser) return;
+            
+            const noteIndex = notes.deleted.findIndex(n => n.id === noteId);
+            if (noteIndex !== -1) {
+                const note = notes.deleted.splice(noteIndex, 1)[0];
+                notes.published.push(note);
+                showAdminNotes('bin');
+            }
+        }
+
+        function permanentlyDeleteNote(noteId) {
+            if (!currentUser) return;
+            
+            if (confirm('Are you sure you want to permanently delete this note? This action cannot be undone.')) {
+                const noteIndex = notes.deleted.findIndex(n => n.id === noteId);
+                if (noteIndex !== -1) {
+                    notes.deleted.splice(noteIndex, 1);
+                    showAdminNotes('bin');
+                }
+            }
+        }
+
+        function showManageCategories() {
+            if (!currentUser) return;
+            
+            hideAllPages();
+            
+            const manageCategoriesPage = document.createElement('div');
+            manageCategoriesPage.id = 'manageCategoriesPage';
+            manageCategoriesPage.className = 'page';
+            manageCategoriesPage.innerHTML = `
+                <div class="admin-dashboard">
+                    <div class="hero">
+                        <button class="back-btn" onclick="showAdminDashboard()">← Back to Dashboard</button>
+                        <h1>Manage Categories</h1>
+                        <p>Add, edit, or delete subcategories in each main category</p>
+                    </div>
+                    
+                    <div class="categories">
+                        <div class="category-card" onclick="manageCategorySubcategories('Medical')">
+                            <div class="category-icon medical">
+                                <i class="fas fa-heart-pulse"></i>
+                            </div>
+                            <h3>Medical</h3>
+                            <p>Manage medical subcategories</p>
+                            <small>${Object.keys(categories.Medical.subcategories).length} subcategories</small>
+                        </div>
+                        <div class="category-card" onclick="manageCategorySubcategories('Surgical')">
+                            <div class="category-icon surgical">
+                                <i class="fas fa-user-md"></i>
+                            </div>
+                            <h3>Surgical</h3>
+                            <p>Manage surgical subcategories</p>
+                            <small>${Object.keys(categories.Surgical.subcategories).length} subcategories</small>
+                        </div>
+                        <div class="category-card" onclick="manageCategorySubcategories('Specialty')">
+                            <div class="category-icon specialty">
+                                <i class="fas fa-stethoscope"></i>
+                            </div>
+                            <h3>Specialty</h3>
+                            <p>Manage specialty subcategories</p>
+                            <small>${Object.keys(categories.Specialty.subcategories).length} subcategories</small>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            // Remove existing manage categories page if it exists
+            const existingPage = document.getElementById('manageCategoriesPage');
+            if (existingPage) {
+                existingPage.remove();
+            }
+            
+            document.querySelector('.main-content').appendChild(manageCategoriesPage);
+            manageCategoriesPage.classList.remove('hidden');
+            currentPage = 'manageCategories';
+        }
+
+        function manageCategorySubcategories(categoryName) {
+            if (!currentUser) return;
+            
+            hideAllPages();
+            
+            const subcatManagePage = document.createElement('div');
+            subcatManagePage.id = 'subcatManagePage';
+            subcatManagePage.className = 'page';
+            
+            const subcategoriesHtml = Object.keys(categories[categoryName].subcategories)
+                .map(subcat => `
+                    <div class="subcategory-card" style="position: relative;">
+                        <div style="position: absolute; top: 10px; right: 10px; display: flex; gap: 0.5rem;">
+                            <button class="admin-btn edit" onclick="editSubcategoryInline('${categoryName}', '${subcat}')" title="Edit Subcategory">
+                                <i class="fas fa-pen"></i>
+                            </button>
+                            <button class="admin-btn delete" onclick="deleteSubcategoryInline('${categoryName}', '${subcat}')" title="Delete Subcategory">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                        <h3>${subcat}</h3>
+                        <p>${categories[categoryName].subcategories[subcat].noteCount} notes</p>
+                    </div>
+                `).join('');
+            
+            subcatManagePage.innerHTML = `
+                <div class="admin-dashboard">
+                    <div class="hero">
+                        <button class="back-btn" onclick="showManageCategories()">← Back to Categories</button>
+                        <h1>${categoryName} Subcategories</h1>
+                        <p>Manage subcategories in the ${categoryName} category</p>
+                        <button class="btn btn-primary" onclick="addNewSubcategoryInline('${categoryName}')" style="margin-top: 1rem;">
+                            <i class="fas fa-plus"></i> Add New Subcategory
+                        </button>
+                    </div>
+                    
+                    <div class="subcategories">
+                        ${subcategoriesHtml}
+                    </div>
+                </div>
+            `;
+            
+            // Remove existing page if it exists
+            const existingPage = document.getElementById('subcatManagePage');
+            if (existingPage) {
+                existingPage.remove();
+            }
+            
+            document.querySelector('.main-content').appendChild(subcatManagePage);
+            subcatManagePage.classList.remove('hidden');
+            currentPage = 'subcatManage';
+        }
+
+        function addNewSubcategoryInline(categoryName) {
+            if (!currentUser) return;
+            const subcatName = prompt(`Add new subcategory to ${categoryName}:`);
+            if (subcatName && subcatName.trim()) {
+                const trimmedName = subcatName.trim();
+                if (!categories[categoryName].subcategories[trimmedName]) {
+                    categories[categoryName].subcategories[trimmedName] = { noteCount: 0 };
+                    manageCategorySubcategories(categoryName);
+                    alert(`Subcategory "${trimmedName}" added to ${categoryName}`);
+                } else {
+                    alert('Subcategory already exists!');
+                }
+            }
+        }
+
+        function editSubcategoryInline(categoryName, subcatName) {
+            if (!currentUser) return;
+            const newName = prompt(`Edit subcategory name:`, subcatName);
+            if (newName && newName.trim() && newName.trim() !== subcatName) {
+                const trimmedName = newName.trim();
+                if (!categories[categoryName].subcategories[trimmedName]) {
+                    categories[categoryName].subcategories[trimmedName] = categories[categoryName].subcategories[subcatName];
+                    delete categories[categoryName].subcategories[subcatName];
+                    
+                    // Update all notes with this subcategory
+                    notes.published.forEach(note => {
+                        if (note.category === categoryName && note.subcategory === subcatName) {
+                            note.subcategory = trimmedName;
+                        }
+                    });
+                    
+                    manageCategorySubcategories(categoryName);
+                    alert(`Subcategory renamed to "${trimmedName}"`);
+                } else {
+                    alert('A subcategory with that name already exists!');
+                }
+            }
+        }
+
+        function deleteSubcategoryInline(categoryName, subcatName) {
+            if (!currentUser) return;
+            const notesInSubcat = notes.published.filter(note => 
+                note.category === categoryName && note.subcategory === subcatName
+            ).length;
+            
+            const confirmMsg = notesInSubcat > 0 
+                ? `Are you sure you want to delete "${subcatName}"? This will also delete ${notesInSubcat} note(s) in this subcategory.`
+                : `Are you sure you want to delete "${subcatName}"?`;
+            
+            if (confirm(confirmMsg)) {
+                // Move notes to deleted
+                const notesToDelete = notes.published.filter(note => 
+                    note.category === categoryName && note.subcategory === subcatName
+                );
+                notesToDelete.forEach(note => {
+                    const index = notes.published.indexOf(note);
+                    notes.published.splice(index, 1);
+                    notes.deleted.push(note);
+                });
+                
+                // Remove subcategory
+                delete categories[categoryName].subcategories[subcatName];
+                
+                manageCategorySubcategories(categoryName);
+                alert(`Subcategory "${subcatName}" deleted${notesToDelete.length > 0 ? ` along with ${notesToDelete.length} note(s)` : ''}`);
+            }
+        }
+
+        // Search functionality
+        let selectedSuggestionIndex = -1;
+        let currentSuggestions = [];
+
+        function initializeSearch() {
+            const searchInput = document.getElementById('searchInput');
+            const suggestionsContainer = document.getElementById('searchSuggestions');
+            
+            searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                if (query.length < 2) {
+                    hideSuggestions();
+                    return;
+                }
+                
+                const results = searchForSuggestions(query);
+                showSuggestions(results, query);
+            });
+            
+            searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'ArrowDown') {
+                    e.preventDefault();
+                    selectedSuggestionIndex = Math.min(selectedSuggestionIndex + 1, currentSuggestions.length - 1);
+                    updateSelectedSuggestion();
+                } else if (e.key === 'ArrowUp') {
+                    e.preventDefault();
+                    selectedSuggestionIndex = Math.max(selectedSuggestionIndex - 1, -1);
+                    updateSelectedSuggestion();
+                } else if (e.key === 'Enter') {
+                    e.preventDefault();
+                    if (selectedSuggestionIndex >= 0 && currentSuggestions[selectedSuggestionIndex]) {
+                        selectSuggestion(currentSuggestions[selectedSuggestionIndex]);
+                    }
+                } else if (e.key === 'Escape') {
+                    hideSuggestions();
+                }
+            });
+            
+            searchInput.addEventListener('blur', function() {
+                // Delay hiding to allow clicking on suggestions
+                setTimeout(() => hideSuggestions(), 200);
+            });
+            
+            // Close suggestions when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!searchInput.contains(e.target) && !suggestionsContainer.contains(e.target)) {
+                    hideSuggestions();
+                }
+            });
+        }
+
+        function searchForSuggestions(query) {
+            const suggestions = [];
+            
+            // Search notes
+            notes.published.forEach(note => {
+                if (note.title.toLowerCase().includes(query)) {
+                    suggestions.push({
+                        type: 'note',
+                        title: note.title,
+                        meta: `${note.category} › ${note.subcategory}`,
+                        data: note
+                    });
+                }
+            });
+            
+            // Search categories
+            Object.keys(categories).forEach(catName => {
+                if (catName.toLowerCase().includes(query)) {
+                    suggestions.push({
+                        type: 'category',
+                        title: catName,
+                        meta: 'Category',
+                        data: { name: catName }
+                    });
+                }
+                
+                // Search subcategories
+                Object.keys(categories[catName].subcategories).forEach(subcat => {
+                    if (subcat.toLowerCase().includes(query)) {
+                        suggestions.push({
+                            type: 'subcategory',
+                            title: subcat,
+                            meta: `${catName} › Subcategory`,
+                            data: { category: catName, subcategory: subcat }
+                        });
+                    }
+                });
+            });
+            
+            return suggestions.slice(0, 8); // Limit to 8 suggestions
+        }
+
+        function showSuggestions(suggestions, query) {
+            const container = document.getElementById('searchSuggestions');
+            currentSuggestions = suggestions;
+            selectedSuggestionIndex = -1;
+            
+            if (suggestions.length === 0) {
+                container.innerHTML = '<div class="suggestion-item">No results found</div>';
+                container.classList.remove('hidden');
+                return;
+            }
+            
+            container.innerHTML = suggestions.map((suggestion, index) => {
+                const highlightedTitle = highlightQuery(suggestion.title, query);
+                return `
+                    <div class="suggestion-item" data-index="${index}" onclick="selectSuggestion(currentSuggestions[${index}])">
+                        <div class="suggestion-title">${highlightedTitle}</div>
+                        <div class="suggestion-meta">${suggestion.meta}</div>
+                    </div>
+                `;
+            }).join('');
+            
+            container.classList.remove('hidden');
+        }
+
+        function highlightQuery(text, query) {
+            const regex = new RegExp(`(${query})`, 'gi');
+            return text.replace(regex, '<span class="suggestion-highlight">$1</span>');
+        }
+
+        function updateSelectedSuggestion() {
+            const items = document.querySelectorAll('.suggestion-item');
+            items.forEach((item, index) => {
+                item.classList.toggle('selected', index === selectedSuggestionIndex);
+            });
+        }
+
+        function selectSuggestion(suggestion) {
+            const searchInput = document.getElementById('searchInput');
+            searchInput.value = suggestion.title;
+            hideSuggestions();
+            
+            // Navigate based on suggestion type
+            if (suggestion.type === 'note') {
+                showNote(suggestion.data.id);
+            } else if (suggestion.type === 'category') {
+                showCategory(suggestion.data.name);
+            } else if (suggestion.type === 'subcategory') {
+                currentCategory = suggestion.data.category;
+                showSubcategory(suggestion.data.subcategory);
+            }
+        }
+
+        function hideSuggestions() {
+            document.getElementById('searchSuggestions').classList.add('hidden');
+            selectedSuggestionIndex = -1;
+            currentSuggestions = [];
+        }
+
+        // Initialize application
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize theme
+            initializeTheme();
+            
+            // Initialize search
+            initializeSearch();
+            
+            // Set up login form
             document.getElementById('loginForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+                
                 const email = document.getElementById('loginEmail').value;
                 const password = document.getElementById('loginPassword').value;
-
-                if (email === ADMIN_EMAIL && password === ADMIN_PASS) {
-                    user = { email, role: 'admin' };
+                
+                if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
+                    currentUser = { email, role: 'admin' };
                     updateLoginButton();
                     closeLogin();
                     showAdminDashboard();
@@ -1661,6 +2938,9 @@
                 }
             });
             
+            // Set up subcategory population
+            populateSubcategories();
+            
             // Close modals when clicking outside
             document.getElementById('loginModal').addEventListener('click', function(e) {
                 if (e.target === this) {
@@ -1668,9 +2948,9 @@
                 }
             });
             
-            document.getElementById('signupModal').addEventListener('click', function(e) {
+            document.getElementById('aboutEditorModal').addEventListener('click', function(e) {
                 if (e.target === this) {
-                    closeSignup();
+                    closeAboutEditor();
                 }
             });
             
@@ -1685,6 +2965,9 @@
             
             // Update navigation
             updateLoginButton();
+            
+            // Hide admin controls initially
+            hideAdminControls();
         });
     </script>
 </body>
