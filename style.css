@@ -517,3 +517,10 @@ html {
 * {
     transition: background-color 0.3s ease, color 0.3s ease;
 }
+
+/* Search input focus animation */
+input[type="text"]:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-green);
+    transform: scale(1.02);
+}
