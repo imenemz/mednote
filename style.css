@@ -524,3 +524,9 @@ input[type="text"]:focus {
     box-shadow: 0 0 0 3px var(--accent-green);
     transform: scale(1.02);
 }
+
+/* Enhanced hover effect for course cards */
+.course-card:hover {
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
