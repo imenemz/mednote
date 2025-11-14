@@ -1,15 +1,9 @@
-// ===============================================
-// ClinicalRoots: FINAL MAIN APPLICATION SCRIPT (main.js)
-// 100% compatible with index.html IDs and JWT-based app.py backend.
-// ===============================================
 
-// --- GLOBAL STATE ---
 let currentUser = null;
 let currentCategoryFilter = ''; // The category currently selected (e.g., 'anatomy')
 let currentNoteId = null; // The ID of the note currently being viewed/edited
 let currentNoteCategory = ''; // The category of the note being viewed/edited
 
-// --- DOM ELEMENT MAPPING (Matched EXACTLY to your index.html IDs) ---
 const elements = {
     // Content Views (Pages)
     pages: {
@@ -373,3 +367,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
     showHome();
 });
+
